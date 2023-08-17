@@ -41,9 +41,10 @@ export default function CrearPersona() {
 
     return (
         <>
+        <div className='col-md-4 mb-3 px-3'>
             <article className='card' onClick={handleClick}>
                 <img className={style.cardImage} src={imgOpc} alt="img-crear-personas" />
-                <h2 className='card-title'>Crear Personas</h2>
+                <h3 className='card-title'>Crear Personas</h3>
             </article>
             <Modal show={show} onHide={onClose}>
                 <Modal.Header closeButton>
@@ -55,7 +56,7 @@ export default function CrearPersona() {
                             <Form.Label>Nombre:</Form.Label>
                             <Form.Control
                             name='first_name'
-                            value={person.first_name}
+                            value={person?.first_name}
                             type='text'
                             placeholder='Ingre el nombre de la persona..'
                             autoFocus
@@ -66,7 +67,7 @@ export default function CrearPersona() {
                             <Form.Label>Apellido:</Form.Label>
                             <Form.Control
                             name='last_name'
-                            value={person.last_name}
+                            value={person?.last_name}
                             type='text'
                             placeholder='Ingrese el apellido de la persona..'
                             autoFocus
@@ -77,7 +78,7 @@ export default function CrearPersona() {
                             <Form.Label>Dni:</Form.Label>
                             <Form.Control
                             name='dni'
-                            value={person.dni}
+                            value={person?.dni}
                             type='number'
                             placeholder='Ingrese el dni de la persona..'
                             autoFocus
@@ -88,7 +89,7 @@ export default function CrearPersona() {
                             <Form.Label>Edad:</Form.Label>
                             <Form.Control
                             name='age'
-                            value={person.age}
+                            value={person?.age}
                             type='number'
                             placeholder='Ingrese la edad de la persona..'
                             autoFocus1
@@ -110,6 +111,7 @@ export default function CrearPersona() {
                     <Button onClick={handleOnSubmit} variant='primary'>Crear</Button>
                 </Modal.Footer>
             </Modal>
+            </div>
         </>
     )
 }
