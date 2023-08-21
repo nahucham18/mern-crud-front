@@ -6,10 +6,15 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 
+import Swal from 'sweetalert2';
+import { useSelector } from 'react-redux';
+
 export default function CrearCurso() {
 
+    const categorias = useSelector(state => state.category.categories)
+
     const [show, setShow] = useState(false)
-    const [categorias, setCategorias] = useState()
+    // const [categorias, setCategorias] = useState(categoriasSlice)
     const [curso, setCurso] = useState(
         {
             name:"",
@@ -30,22 +35,34 @@ export default function CrearCurso() {
         setCurso({...curso,[event.target.name]:event.target.value})
     }
 
-    const getCategories = async()=>{
-        const categories = await axios.get('http://localhost:3001/api/category')
-        setCategorias(categories.data);
-    }
+    // const getCategories = async()=>{
+    //     const categories = await axios.get('http://localhost:3001/api/category')
+    //     setCategorias(categories.data);
+    // }
 
     const handleOnSubmit = async() =>{
-        const response = await axios.post('http://localhost:3001/api/course',curso)
-        
-        console.log(response)
+        try {
+            const response = await axios.post('http://localhost:3001/api/course',curso)
+            console.log(response)
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: response.data.message
+            })
+        } catch (error) {
+            Swal.fire({
+                position:'top',
+                icon: 'error',
+                title: 'Error',
+                text: error.response.data.message
+            })
+        }
     }
 
     useEffect(()=>{
-        getCategories();
-    },[show])
+        // getCategories();
+    },[show,categorias])
 
-    console.log(curso)
 
     return (
         <>
@@ -82,6 +99,9 @@ export default function CrearCurso() {
                             />
                         </Form.Group>
                     </Form>
+                        {
+                            categorias
+                            ?
                     <Form.Group className='mb-3' controlId='exampleForm'>
                         <Form.Label>Elegir categoria:</Form.Label>
                         <Form.Select name='categoryID' onChange={handleOnChange}>
@@ -95,6 +115,9 @@ export default function CrearCurso() {
                             }
                         </Form.Select>
                     </Form.Group>
+                    : <></>
+
+                        }
                 </Modal.Body>
                 <Modal.Footer>
                     <Button onClick={onClose} variant='secondary'>Cerrar</Button>

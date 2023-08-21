@@ -13,34 +13,41 @@ import EditarPersona from '../Opcion/EditarPerson/EditarPersona';
 import Estadisticas from '../Opcion/Estadisticas/Estadisticas';
 import { useState } from 'react';
 import ContainerStadisticas from '../Opcion/Estadisticas/ContainerStadisticas';
+import ViewCourses from '../Opcion/ViewCourses/ViewCourses';
+import ContainerViewCourse from '../Opcion/ViewCourses/ContainerViewCourses';
 
 export default function ContainerOpciones() {
 
     const [showStats, setShowStats] = useState(false)
+    const [showViewCourses, setshowViewCourses] = useState(false)
 
-    const opciones = [
-        {
-            id: 6,
-            title: "Estadisticas",
-            img: opc6,
+
+
+    const handleShow = (name) => {
+        if(name === 'viewCourses'){
+            setshowViewCourses(true)
+        }else if (name === 'stats'){
+            setShowStats(true)
         }
-    ]
-
-    const handleShow = () => {
-        setShowStats(true)
     }
 
-    const onClose = () =>{
-        setShowStats(false)
+    const onClose = (name) => {
+        if(name === 'stats'){
+            setShowStats(false)
+        }else if(name === 'viewCourses'){
+            setshowViewCourses(false)
+        }
     }
 
 
     return (
         <section >
             {
-                showStats
-                    ?
-                    <ContainerStadisticas onClose={onClose}/>
+                showStats ?
+                    <ContainerStadisticas onClose={onClose} />
+                    :
+                    showViewCourses ?
+                    <ViewCourses onClose={onClose}/>
                     :
                     <div className="container d-flex flex-wrap jutify-content-center ">
                         <CrearPersona />
@@ -48,17 +55,11 @@ export default function ContainerOpciones() {
                         <CrearCategoria />
                         <PersonaCurso />
                         <EditarPersona />
-                        <Estadisticas handleShow={handleShow} />
-                        {
-                            opciones?.map((opc) => {
-                                return (
-                                    <Opcion key={opc.id} opc={opc} />
-                                )
-                            })
-                        }
+                        <Estadisticas  handleShow={handleShow} />
+                        <ContainerViewCourse handleShow={handleShow} />
                     </div>
-
             }
+
         </section>
     )
 }

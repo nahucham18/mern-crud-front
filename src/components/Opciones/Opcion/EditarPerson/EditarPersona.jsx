@@ -5,11 +5,19 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+
+import Swal from 'sweetalert2';
+import { searchUsers } from '../../../../features/users/usersSlice';
 
 export default function EditarPersona() {
 
+    const dispatch = useDispatch()
+
+    const users = useSelector(state => state.users.filterUsers)
+
     const [show, setShow] = useState(false);
-    const [users, setUsers] = useState()
+    // const [users, setUsers] = useState()
     const [user, setUser] = useState()
     const [data, setData] = useState(
         {
@@ -29,15 +37,19 @@ export default function EditarPersona() {
         setShow(false)
     }
 
-    const getAllUsers = async () => {
-        const response = await axios.get('http://localhost:3001/api/user')
-        console.log(response.data)
-        setUsers(response.data)
-
+    const searchUser = (event) =>{
+        dispatch(searchUsers(event.target.value.toLowerCase()))
     }
 
-    const handleCheck = async (event) => {  
-        
+    // const getAllUsers = async () => {
+    //     const response = await axios.get('http://localhost:3001/api/user')
+    //     console.log(response.data)
+    //     setUsers(response.data)
+
+    // }
+
+    const handleCheck = async (event) => {
+
         const response = await axios.get(`http://localhost:3001/api/user/${event.target.value}`)
         console.log(response.data)
         setUser(response.data)
@@ -47,16 +59,32 @@ export default function EditarPersona() {
         setData({ ...data, [event.target.name]: event.target.value })
     }
 
-    const handleOnSubmit = async() =>{
+    const handleOnSubmit = async () => {
         console.log(user._id)
         console.log(data)
-        const response = await axios.put(`http://localhost:3001/api/user/${user._id}`, data)
-        console.log(response)
+        try {
+            const response = await axios.put(`http://localhost:3001/api/user/${user._id}`, data)
+            console.log(response)
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Usuario actualizado'
+            })
+        } catch (error) {
+            console.log(error)
+            Swal.fire({
+                position: 'top-end',
+                icon: 'error',
+                title: 'Error',
+                text: error.response.data.message,
+            })
+        }
+
     }
 
     useEffect(() => {
-        getAllUsers()
-    }, [show])
+        // getAllUsers()
+    }, [show,users])
 
     useEffect(() => {
         setData({
@@ -82,9 +110,12 @@ export default function EditarPersona() {
                 <Modal.Header closeButton>Editar Persona</Modal.Header>
                 <Modal.Body>
                     <Form>
-                        <Form.Control type='text' placeholder='Buscar Alumno' />
-                        <Form.Group>
-                            <div className='container'>
+                        <Form.Control className='mb-3' type='text' placeholder='Buscar Alumno' onChange={searchUser}/>
+                        {
+                            users
+                            ?
+                            <Form.Group>
+                            <div className='container overflow-y-scroll' style={{height:'130px'}}>
                                 {
                                     users?.map((user, index) => {
                                         return (
@@ -100,6 +131,10 @@ export default function EditarPersona() {
                                 }
                             </div>
                         </Form.Group>
+                        :
+                        <></>
+                        }
+                        
                         <Form.Group>
                             <Form.Label>Nombre:</Form.Label>
                             <Form.Control
@@ -113,31 +148,31 @@ export default function EditarPersona() {
                         <Form.Group>
                             <Form.Label>Apellido:</Form.Label>
                             <Form.Control
-                            name='last_name'
-                            type='text'
-                            placeholder='Ingrese Apellido de la persona..'
-                            value={data.last_name}
-                            onChange={handleOnChange}
+                                name='last_name'
+                                type='text'
+                                placeholder='Ingrese Apellido de la persona..'
+                                value={data.last_name}
+                                onChange={handleOnChange}
                             />
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>DNI:</Form.Label>
                             <Form.Control
-                            name='dni'
-                            type='number'
-                            placeholder='Ingrese n° de documento de la persona..'
-                            value={data.dni}
-                            onChange={handleOnChange}
+                                name='dni'
+                                type='number'
+                                placeholder='Ingrese n° de documento de la persona..'
+                                value={data.dni}
+                                onChange={handleOnChange}
                             />
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>Edad:</Form.Label>
                             <Form.Control
-                            name='age'
-                            type='text'
-                            placeholder='Ingrese edad de la persona..'
-                            value={data.age}
-                            onChange={handleOnChange}
+                                name='age'
+                                type='text'
+                                placeholder='Ingrese edad de la persona..'
+                                value={data.age}
+                                onChange={handleOnChange}
                             />
                         </Form.Group>
                         <Form.Group>
@@ -150,8 +185,8 @@ export default function EditarPersona() {
                         </Form.Group>
                     </Form>
                     <Modal.Footer>
-                                <Button onClick={onClose} variant='secondary'>Cerrar</Button>
-                                <Button onClick={handleOnSubmit} variant='primary'>Guardar Cambios</Button>
+                        <Button onClick={onClose} variant='secondary'>Cerrar</Button>
+                        <Button onClick={handleOnSubmit} variant='primary'>Guardar Cambios</Button>
                     </Modal.Footer>
                 </Modal.Body>
             </Modal>

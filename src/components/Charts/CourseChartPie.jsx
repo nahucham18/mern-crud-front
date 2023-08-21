@@ -7,20 +7,60 @@ import axios from 'axios';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
-export default function CourseChartPie(){
-  const [dataChar, setDataChar]= useState();
-  const [optionChar, setOptionChar] = useState();
-
-  const getUsers = async() =>{
-    
-  }
+export default function CourseChartPie({users}){
+ 
+  const [mujeres, setMujeres] = useState([]);
+  const [hombres, setHombres] = useState([]);
+  
+ 
 
   useEffect(()=>{
-    getUsers();
-  },[])
+    console.log(users)
+    
+    const userMujeres = users?.filter(user => {
+      return user.gender === 'mujer'
+    })
+    console.log({mujeres:userMujeres})
+    setMujeres(userMujeres)
 
+    const userHombres = users?.filter(user=>{
+      return user.gender === 'hombre'
+    })
+    console.log({hombres:  userHombres})
+    setHombres(userHombres)
+    
+  },[users])
+
+  console.log(users)
+  console.log(mujeres?.length)
   return (
-    <Pie/>
+    <>
+    <div>
+      {
+        (users)
+        ?
+        <Pie data={{
+          labels:['hombres','mujeres'],
+          datasets:[
+            {
+              data: [hombres?.length, mujeres?.length],
+              backgroundColor:['rgba(145, 200, 255, 0.7)','rgba(255, 193, 255, 0.7)'],
+            },
+           
+            ],
+        }}
+        options={{maintainAspectRatio: false,
+          responsive: true,}}
+        />
+        :
+        <></>
+      }
+      
+      
+    </div>
+      
+    
+    </>
   )
 }
 
