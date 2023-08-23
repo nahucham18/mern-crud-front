@@ -61,7 +61,7 @@ export default function CrearCurso() {
     }
 
     // const getCategories = async()=>{
-    //     const categories = await axios.get('http://localhost:3001/api/category')
+    //     const categories = await axios.get('https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/category')
     //     setCategorias(categories.data);
     // }
 
@@ -69,7 +69,7 @@ export default function CrearCurso() {
         setSubmitted(true)
         console.log(values)
         try {
-            const response = await axios.post('http://localhost:3001/api/course', values)
+            const response = await axios.post('https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/course', values)
             console.log(response)
             Swal.fire({
                 position: 'top-end',

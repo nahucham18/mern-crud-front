@@ -13,22 +13,22 @@ export default function ContainerStadisticas({ onClose }) {
     const [users, setUsers] = useState()
 
     const getAllCourses = async () => {
-        const response = await axios.get('http://localhost:3001/api/course')
+        const response = await axios.get('https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/course')
         // console.log(response.data)
         setCourses(response.data)
     }
 
     const handleCheck = async (event) => {
-        const response = await axios.get(`http://localhost:3001/api/course/${event.target.value}`)
+        const response = await axios.get(`https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/course/${event.target.value}`)
         // console.log(response.data)
         setCourse(response.data)
-        const responseUsers = await axios.get(`http://localhost:3001/api/user/bycourse?courseID=${response.data._id}`)
+        const responseUsers = await axios.get(`https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/user/bycourse?courseID=${response.data._id}`)
         // console.log(responseUsers)
         setUsers(responseUsers.data)
     }
 
     const getAllUsers = async () => {
-        const response = await axios.get('http://localhost:3001/api/user')
+        const response = await axios.get('https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/user')
         console.log(response.data)
         setUsers(response.data)
     }

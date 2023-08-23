@@ -37,21 +37,21 @@ export default function EditarCategoria() {
 
     const handleCheck = async (event) => {
 
-        const response = await axios.get(`http://localhost:3001/api/category/${event.target.value}`)
+        const response = await axios.get(`https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/category/${event.target.value}`)
         console.log(response.data)
         setCategoria(response.data)
     }
 
     const handleOnSubmit = async () => {
         try {
-            const response = await axios.put(`http://localhost:3001/api/category/${categoria._id}`, categoria)
+            const response = await axios.put(`https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/category/${categoria._id}`, categoria)
             console.log(response.data)
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
                 title: `${response.data.message}`
             })
-            const allCategories = await axios.get('http://localhost:3001/api/category')
+            const allCategories = await axios.get('https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/category')
             dispatch(getAllCategoires(allCategories.data))
             
 
@@ -67,7 +67,7 @@ export default function EditarCategoria() {
 
     const deleteCategory = async () => {
         try {
-            const response = await axios.delete(`http://localhost:3001/api/category/${categoria._id}`)
+            const response = await axios.delete(`https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/category/${categoria._id}`)
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
@@ -77,7 +77,7 @@ export default function EditarCategoria() {
                 name:""
             })
             setCategoria(undefined)
-            const allCategories = await axios.get('http://localhost:3001/api/category')
+            const allCategories = await axios.get('https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/category')
             dispatch(getAllCategoires(allCategories.data))
             
         } catch (error) {

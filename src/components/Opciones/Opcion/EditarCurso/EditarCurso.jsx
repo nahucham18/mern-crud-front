@@ -42,7 +42,7 @@ export default function EditarPersona() {
     }
 
     // const getAllUsers = async () => {
-    //     const response = await axios.get('http://localhost:3001/api/user')
+    //     const response = await axios.get('https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/user')
     //     console.log(response.data)
     //     setUsers(response.data)
 
@@ -50,7 +50,7 @@ export default function EditarPersona() {
 
     const handleCheck = async (event) => {
 
-        const response = await axios.get(`http://localhost:3001/api/course/${event.target.value}`)
+        const response = await axios.get(`https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/course/${event.target.value}`)
         console.log(response.data)
         setCourse(response.data)
     }
@@ -63,7 +63,7 @@ export default function EditarPersona() {
         console.log(course._id)
         console.log(data)
         try {
-            const response = await axios.put(`http://localhost:3001/api/course/${course._id}`, data)
+            const response = await axios.put(`https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/course/${course._id}`, data)
             console.log(response)
             Swal.fire({
                 position: 'top-end',

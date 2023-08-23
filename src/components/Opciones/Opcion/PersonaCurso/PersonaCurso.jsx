@@ -36,13 +36,13 @@ export default function PersonaCurso() {
 
 
     // const getAllUsers = async () => {
-    //     const usuarios = await axios.get('http://localhost:3001/api/user');
+    //     const usuarios = await axios.get('https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/user');
     //     setUsers(usuarios.data)
     //     console.log(usuarios)
     // }
 
     // const getAllCourses = async () => {
-    //     const cursos = await axios.get('http://localhost:3001/api/course')
+    //     const cursos = await axios.get('https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/course')
     //     setCourses(cursos.data)
     // }
 
@@ -56,20 +56,20 @@ export default function PersonaCurso() {
 
     const handleCheckUser = async (event) => {
         console.log(event.target.value)
-        const response = await axios.get(`http://localhost:3001/api/user/${event.target.value}`)
+        const response = await axios.get(`https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/user/${event.target.value}`)
         setUser(response.data)
     }
 
     const handleCheckCourse = async (event) => {
         console.log(event.target.value)
-        const response = await axios.get(`http://localhost:3001/api/course/${event.target.value}`)
+        const response = await axios.get(`https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/course/${event.target.value}`)
         console.log(response.data)
         setCurso(response.data)
     }
 
     const putUser = async () => {
         try {
-            const response = await axios.put(`http://localhost:3001/api/user/${user._id}`, { courses: curso._id });
+            const response = await axios.put(`https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/user/${user._id}`, { courses: curso._id });
             console.log(response.data.data);
             const newCourse = response.data.data.courses.slice(-1)[0]
             console.log({ newCourse: newCourse })

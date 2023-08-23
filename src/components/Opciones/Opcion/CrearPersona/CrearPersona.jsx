@@ -78,7 +78,7 @@ export default function CrearPersona() {
         setSubmitted(true)
         
         try {
-            const response = await axios.post('http://localhost:3001/api/user', values)
+            const response = await axios.post('https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/user', values)
             Swal.fire({
                 position:'top-end',
                 icon:'success',
