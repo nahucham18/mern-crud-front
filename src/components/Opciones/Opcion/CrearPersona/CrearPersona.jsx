@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import imgOpc from '../../../../assets/opc1.png';
+import imgOpc from '../../../../assets/crearUsuario.png';
 import style from './CrearPersona.module.css';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -123,13 +123,13 @@ export default function CrearPersona() {
     return (
         <>
             <div className='col-md-4 mb-3 px-3'>
-                <article className='card' onClick={handleClick}>
-                    <img className={style.cardImage} src={imgOpc} alt="img-crear-personas" />
-                    <h3 className='card-title'>Crear Personas</h3>
+                <article className='card pointer' onClick={handleClick} style={{height:'200px'}}>
+                    <img className={style.cardImage} src={imgOpc} alt="img-crear-personas" style={{height:'80%'}}/>
+                    <h3 className='card-title card-title-custom'>Nuevo usuario</h3>
                 </article>
                 <Modal show={show} onHide={onClose}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Crear Personas</Modal.Title>
+                        <Modal.Title>Crear usuario</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Formik

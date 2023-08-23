@@ -43,3 +43,14 @@
   max-height: 200px;
   object-fit: cover;
 }
+
+.card-title-custom {
+  font-size: 20px; /* Ajusta el tamaño de fuente según tus preferencias */
+}
+
+.pointer:hover{
+  cursor: pointer;
+  box-shadow: 3px 3px 20px black;
+  color: white;
+  background-color: #00a1ce;
+}

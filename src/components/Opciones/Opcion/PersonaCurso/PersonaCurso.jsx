@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import imgOpc from '../../../../assets/opc4.jpg';
+import imgOpc from '../../../../assets/personaCurso.png';
 import style from './PersonaCurso.module.css';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
@@ -22,9 +22,9 @@ export default function PersonaCurso() {
 
     const [show, setShow] = useState(false);
     // const [users, setUsers] = useState()
-    const [user, setUser] = useState()
+    const [user, setUser] = useState("")
     // const [courses, setCourses] = useState()
-    const [curso, setCurso] = useState()
+    const [curso, setCurso] = useState("")
 
     const onShow = () => {
         setShow(true);
@@ -90,8 +90,8 @@ export default function PersonaCurso() {
     }
 
     useEffect(() => {
-        // getAllUsers()
-        // getAllCourses()
+        console.log(user._id)
+        console.log(curso._id)
     }, [show])
 
 
@@ -100,9 +100,9 @@ export default function PersonaCurso() {
     return (
         <>
             <div className="col-md-4 mb-3 px-3">
-                <article className="card" onClick={onShow}>
-                    <img className={style.cardImage} src={imgOpc} alt="img-asignar-persona-a-curso" />
-                    <h3 className='card-title'>Asignar persona a curso</h3>
+                <article className="card pointer" onClick={onShow} style={{height:'200px'}}>
+                    <img className='cardImage' src={imgOpc} alt="img-asignar-persona-a-curso" style={{height:'80%', objectFit:'contain'}}/>
+                    <h3 className='card-title card-title-custom'>Asignar a curso</h3>
                 </article>
             </div>
             <Modal show={show} onHide={onClose}>
@@ -152,12 +152,12 @@ export default function PersonaCurso() {
                                     categorias
                                         ?
                                         <Form.Select name='categoryID' onChange={searchCategory}>
-                                            <option selected disabled value="">Buscar por categoria..</option>
+                                            <option disabled value="">Buscar por categoria..</option>
                                             <option value='all'>Todas las categorias</option>
                                             {
                                                 categorias?.map((category, index) => {
                                                     return (
-                                                        <option key={index} value={category._id}>{category.name}</option>
+                                                        <option key={index} value={category?._id}>{category?.name}</option>
                                                     )
                                                 })
                                             }
@@ -173,8 +173,8 @@ export default function PersonaCurso() {
                                             courses?.map((course, index) => {
                                                 return (
                                                     <Form.Check type='radio' key={index + 1}>
-                                                        <Form.Check.Input type='radio' name='curso ' id={index + 1} value={course._id} onChange={handleCheckCourse} />
-                                                        <Form.Check.Label>{course.category.name} - {course.name}</Form.Check.Label>
+                                                        <Form.Check.Input type='radio' name='curso ' id={index + 1} value={course?._id} onChange={handleCheckCourse} />
+                                                        <Form.Check.Label>{course?.category?.name} - {course?.name}</Form.Check.Label>
                                                     </Form.Check>
                                                 )
                                             })
@@ -190,12 +190,37 @@ export default function PersonaCurso() {
                 </Modal.Body>
                 <Modal.Footer>
                 <div className='container mt-3 '>
-                        <Row className="justify-content-center">
-                            <Col xs={6}>{user?.last_name} {user?.first_name}</Col>
-                            <Col xs={6}>{curso?.name} - {curso?.category?.name}</Col>
+                        <Row className="justify-content-center " style={{textAlign: 'center', fontSize:'1rem',fontWeight:'bold', marginBottom: "2rem"}}>
+                            {
+                                user?
+                                <Col  xs={5}>{user?.last_name} {user?.first_name}</Col>
+                                : <></>
+                            }
+                            {
+                                user && curso 
+                                ?
+                                <Col xs={2}>-</Col>
+                                :
+                                <></>
+                            }
+                            {
+                                curso?
+                                <Col xs={5}>{curso?.name} - {curso?.category?.name}</Col>
+                                :
+                                <></>
+                            }
+                            
+                            
                         </Row>
-                        <div className='row col-3 mt-3'>
-                            <Button onClick={putUser} variant='primary' >Agregar</Button>{''}
+                        <div className='mt-3' style={{display:'flex', justifyContent:'center'}}>
+                            {
+                                (user._id === undefined || curso._id === undefined)
+                                ?
+                                <Button  variant='secondary' >Agregar</Button>
+                                :
+                                <Button  onClick={putUser} variant='primary' >Agregar</Button>
+                            }
+                            
                         </div>
                     </div>
                 </Modal.Footer>

@@ -4,6 +4,7 @@ import axios from 'axios';
 import CourseChartPie from '../../../Charts/CourseChartPie';
 import AgeChartPie from '../../../Charts/AgeChartPie';
 import Button from 'react-bootstrap/Button';
+import Card from 'react-bootstrap/Card';
 
 export default function ContainerStadisticas({ onClose }) {
 
@@ -42,31 +43,37 @@ export default function ContainerStadisticas({ onClose }) {
 
     return (
         <div className="container d-flex flex-wrap jutify-content-center ">
-            <Button variant='dark' onClick={() => onClose('stats')}>Volver</Button>
+            <Button className='mb-3' variant='dark' onClick={() => onClose('stats')}>Volver</Button>
             <div className="container  ">
                 <div className="row">
                     <div className="col-sm-6">
-                        <div className='row h-50'>
-                            img-photo
-                        </div>
-                        <div className='row h-50' >
-                            <h2>{course ? course.name : "Titulo de curso"}</h2>
-                            <span>{course ? course?.category?.name : "Categoria"}</span>
-                            <p>{course ? course.description : "Descripcion del curso"}</p>
-                        </div>
+                        <Card style={{ width: '18rem' }}>
+                            {
+                                course ?
+                                <Card.Img variant="top" src={course?.img_course} />
+                                :
+                                <></>
+                            }
+                            
+                            <Card.Body style={{ textAlign: 'left' }}>
+                                <Card.Title>{course ? course?.name : "Titulo del curso"}</Card.Title>
+                                <Card.Text>{course ? course?.description : "Descripcion del curso"}</Card.Text>
+                                <Card.Text>{course ? course?.category?.name : "Categoria del curso"}</Card.Text>
+                            </Card.Body>
+                        </Card>
                     </div>
 
                     <div className="col-md-6 bg-body-secondary">
                         <div className="container">
                             <Form>
-                                <Form.Control type='text' name='id' placeholder='buscar curso' />
-                                <div>
+                                <Form.Control className='mb-3' type='text' name='id' placeholder='buscar curso' />
+                                <div className='overflow-y-scroll' style={{ height: '200px' }}>
                                     {
                                         courses?.map((course, index) => {
                                             return (
-                                                <Form.Check type='radio' key={index + 1} >
+                                                <Form.Check type='radio' key={index + 1} style={{textAlign:'left'}}>
                                                     <Form.Check.Input type='radio' name='id' id={index + 1} onChange={handleCheck} value={course?._id} />
-                                                    <Form.Check.Label>{course?.category.name} - {course?.name}</Form.Check.Label>
+                                                    <Form.Check.Label>{course?.category?.name} - {course?.name}</Form.Check.Label>
                                                 </Form.Check>
                                             )
                                         })
@@ -77,6 +84,13 @@ export default function ContainerStadisticas({ onClose }) {
                     </div>
                 </div>
                 <div className='container' style={{ width: "100%", height: "100%", padding: "10px 0", maxHeight: "400px", maxWidth: "600px" }}>
+                    {
+                        users?
+                        <h2>personas {users.length  }</h2>
+                        :
+                        <></>
+                    }
+                    
                     <div className="row">
                         <div className="col-md-6">
                             <CourseChartPie users={users} />

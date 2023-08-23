@@ -1,35 +1,88 @@
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
+import Table from 'react-bootstrap/Table';
+import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
+import Form from 'react-bootstrap/Form';
+import { searchCourses, sortCourses } from '../../../../features/courses/coursesSlice';
 
 export default function ContainerViewCourse({ onClose }) {
+
+    const dispatch = useDispatch()
+
+    const courses = useSelector(state => state.courses.filterCourses)
+    const categories = useSelector(state => state.category.categories)
+
+    const [sortOrder, setSortOrder] = useState('asc');
+
+
+    const handleSearchCategory = (event) => {
+        dispatch(searchCourses(event.target.value))
+    }
+
+    const handleSort = (title) => {
+        const order = sortOrder === 'asc' ? 'desc' : 'asc';
+        setSortOrder(order)
+        dispatch(sortCourses({ order, title }))
+    }
+
     return (
-        <section>
-            <Button onClick={() => onClose('viewCourses')}>Volver</Button>
-            <dl class="row">
-                <dt class="col-sm-3">Description lists</dt>
-                <dd class="col-sm-9">A description list is perfect for defining terms.</dd>
+        <section className='container '>
+            <div className=' d-flex justify-content-between align-items-center'>
+            <Button variant='dark' onClick={() => onClose('viewCourses')}>Volver</Button>
+            </div>
 
-                <dt class="col-sm-3">Term</dt>
-                <dd class="col-sm-9">
-                    <p>Definition for the term.</p>
-                    <p>And some more placeholder definition text.</p>
-                </dd>
+            <Row className='col-md-4 my-4'>
+                <Form.Select onChange={handleSearchCategory} className='fit-content'>
+                    <option disabled value="">Seleccione una categoria</option>
+                    <option value="all">Toda las categorias</option>
+                    {
+                        categories?.map((category, index) => {
+                            return (
+                                <option key={index + 1} value={category._id}>{category.name}</option>
+                            )
+                        })
+                    }
+                </Form.Select>
+            </Row>
 
-                <dt class="col-sm-3">Another term</dt>
-                <dd class="col-sm-9">This definition is short, so no extra paragraphs or anything.</dd>
+            <div className='overflow-y-scroll' style={{height:'420px'}}>
 
-                <dt class="col-sm-3 text-truncate">Truncated term is truncated</dt>
-                <dd class="col-sm-9">This can be useful when space is tight. Adds an ellipsis at the end.</dd>
+            
+            <Table striped bordered hover >
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th onClick={() => handleSort('name')}>First Name</th>
+                        <th>Categoria</th>
+                        <th onClick={() => handleSort('createdAt')}>Fecha Creacion</th>
+                        <th onClick={() => handleSort('updatedAt')}> Fecha Actulizacion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        courses?.map((course, index) => {
+                            const fechaCreated = new Date(course.createdAt);
+                            const fechaUpdated = new Date(course.updatedAt);
+                            const formattedFecha = `${fechaCreated.getDate()}/${fechaCreated.getMonth() + 1}/${fechaCreated.getFullYear()} ${fechaCreated.getHours()}:${fechaCreated.getMinutes()}:${fechaCreated.getSeconds()}`;
+                            const formattedUpdate = `${fechaUpdated.getDate()}/${fechaUpdated.getMonth() + 1}/${fechaUpdated.getFullYear()} ${fechaUpdated.getHours()}:${fechaUpdated.getMinutes()}:${fechaUpdated.getSeconds()}`;
+                            // const fecha = new Date(course.createdAt);
+                            return (
+                                <tr key={index + 1}>
+                                    <td>{index + 1}</td>
+                                    <td>{course.name}</td>
+                                    <td>{course?.category?.name}</td>
+                                    <td>{formattedFecha}</td>
+                                    <td>{formattedUpdate}</td>
+                                </tr>
+                            )
 
-                <dt class="col-sm-3">Nesting</dt>
-                <dd class="col-sm-9">
-                    <dl class="row">
-                        <dt class="col-sm-4">Nested definition list</dt>
-                        <dd class="col-sm-8">I heard you like definition lists. Let me put a definition list inside your definition list.</dd>
-                    </dl>
-                </dd>
-            </dl>
+                        })
+                    }
+                </tbody>
+            </Table>
+            </div>
         </section>
     )
 }
