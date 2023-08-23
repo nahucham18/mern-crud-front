@@ -21,11 +21,11 @@ function Carouse() {
                 const course = courses[i];
                 slides.push(
 
-                    <div className=' col-10 col-md-6 col-lg-4 col-xl-3' key={i} style={{margin: '0 auto'}}>
+                    <div className=' col-12 col-sm-6 col-md-6 col-lg-4 col-xl-3' key={i} style={{margin: '0 auto', maxWidth:"300px"}}>
                         {
                             course ?
                                 <Card className='card'
-                                    style={{ height:'100%', margin: '0 10px', paddingBottom:'1rem' ,minWidth:'250px'}}>
+                                    style={{ height:'100%', margin: '0 10px', paddingBottom:'1rem' }}>
                                     <img  className='cardImage' style={{height:'60%', maxHeight: '400px'}}  src={course?.img_course} alt="img-course" />
                                     <Card.Body style={{ textAlign: 'left' ,height:'40%'}}>
                                         <Card.Title style={{fontSize:"1rem"}}>{course.name}</Card.Title>
@@ -53,8 +53,10 @@ function Carouse() {
 
     const handleRize = () => {
         const media = window.innerWidth
-        if (media < 768) {
+        if(media < 576){
             setItemsPerSlide(1)
+        }else if (media < 768) {
+            setItemsPerSlide(2)
         } else if (media < 992) {
             setItemsPerSlide(2)
         } else if(media < 1200) {
@@ -79,7 +81,7 @@ function Carouse() {
             controls={courses.length > itemsPerSlide}
         >
             {Array.from({ length: Math.ceil(courses?.length / itemsPerSlide) }).map((_, index) => (
-                <Carousel.Item key={index} style={{ background: 'rgba(1,1,1,0.3', padding: '1rem 6rem 1rem 6rem' }}>
+                <Carousel.Item key={index} style={{ background: 'rgb(97,183,232', padding: '1rem ' }}>
                     <div className="container d-flex">
                         {renderSlide(index * itemsPerSlide)}
                     </div>

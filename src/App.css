@@ -47,6 +47,10 @@
   font-size: 20px; /* Ajusta el tamaño de fuente según tus preferencias */
 }
 
+.pointer{
+  background-color: rgb(157,233,255);
+}
+
 .pointer:hover{
   cursor: pointer;
   box-shadow: 3px 3px 20px black;
