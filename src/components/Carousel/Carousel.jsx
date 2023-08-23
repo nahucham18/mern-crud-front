@@ -31,7 +31,7 @@ function Carouse() {
                                         {
                                             course?.category?.name
                                                 ?
-                                                <Card.Text>{course?.category?.name}</Card.Text>
+                                                <Card.Text>{course?.category?.name} </Card.Text>
                                                 :
                                                 <Card.Text>"</Card.Text>
 

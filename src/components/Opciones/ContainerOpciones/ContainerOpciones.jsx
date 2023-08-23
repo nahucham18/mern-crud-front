@@ -17,6 +17,7 @@ import ViewCourses from '../Opcion/ViewCourses/ViewCourses';
 import ContainerViewCourse from '../Opcion/ViewCourses/ContainerViewCourses';
 import EditarCurso from '../Opcion/EditarCurso/EditarCurso';
 import EditarCategoria from '../Opcion/EditarCategoria/EditarCategoria';
+import Row from 'react-bootstrap/Row';
 
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
@@ -46,7 +47,7 @@ export default function ContainerOpciones() {
 
 
     return (
-        <section style={{width:'80%', margin:'0 auto'}}>
+        <section style={{ margin:'0 auto'}}>
             {
                 showStats ?
                     <ContainerStadisticas onClose={onClose} />
@@ -54,7 +55,7 @@ export default function ContainerOpciones() {
                     showViewCourses ?
                         <ViewCourses onClose={onClose} />
                         :
-                        <div className="container d-flex flex-wrap jutify-content-center ">
+                        <Row >
                             <CrearPersona />
                             <CrearCurso />
                             <CrearCategoria />
@@ -64,7 +65,7 @@ export default function ContainerOpciones() {
                             <EditarPersona />
                             <EditarCurso />
                             <EditarCategoria />
-                        </div>
+                        </Row>
             }
 
             <Card style={{ width: '18rem' }}>

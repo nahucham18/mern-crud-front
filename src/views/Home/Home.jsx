@@ -29,10 +29,10 @@ export default function Home() {
 
     return (
         <main className='d-flex justify-content-center'>
-            <div className='w-60 mt-4' style={{ width: '100%' }}>
+            <div className='container w-60 mt-4' style={{ width: '100%' }}>
                 <h2 className='mb-3' style={{ textAlign: 'left', paddingLeft: '4rem', fontWeight:"bold" }}>Cursos actualizados </h2>
                 <Carousel />
-                <div style={{ width: '80%', margin: "0 auto" }} >
+                <div className='col-md-12 col-lg-10' style={{margin: '0 auto'}}>
                     <h2 className='mb-4' style={{ fontWeight: 'bold', fontSize: "2rem" }}>Opciones</h2>
                     <Opciones />
                 </div>

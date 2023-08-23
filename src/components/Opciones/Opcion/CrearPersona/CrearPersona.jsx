@@ -122,7 +122,7 @@ export default function CrearPersona() {
 
     return (
         <>
-            <div className='col-md-4 mb-3 px-3'>
+            <div className='col-8 col-sm-6 col-md-6 col-lg-4 mb-3 px-3'style={{margin:'0 auto'}}>
                 <article className='card pointer' onClick={handleClick} style={{height:'200px'}}>
                     <img className={style.cardImage} src={imgOpc} alt="img-crear-personas" style={{height:'80%'}}/>
                     <h3 className='card-title card-title-custom'>Nuevo usuario</h3>
