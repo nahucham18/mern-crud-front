@@ -35,16 +35,7 @@ export default function PersonaCurso() {
     }
 
 
-    // const getAllUsers = async () => {
-    //     const usuarios = await axios.get('https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/user');
-    //     setUsers(usuarios.data)
-    //     console.log(usuarios)
-    // }
-
-    // const getAllCourses = async () => {
-    //     const cursos = await axios.get('https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/course')
-    //     setCourses(cursos.data)
-    // }
+    
 
     const searchUser = (event) => {
         dispatch(searchUsers(event.target.value.toLowerCase()))
