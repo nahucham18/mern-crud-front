@@ -8,15 +8,19 @@ import axios from 'axios';
 
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
-import { addCategory, getAllCategoires } from '../../../../features/category/categorySlica';
+import { addCategory, deleteCategory, getAllCategoires, updateCategory } from '../../../../features/category/categorySlica';
 
 export default function EditarCategoria() {
 
     const dispatch = useDispatch()
 
+    const [access , setAccess] = useState(false)
     const [show, setShow] = useState(false);
     const categories = useSelector(state => state.category.categories)
-    const [categoria, setCategoria] = useState()
+    const [categoria, setCategoria] = useState({
+        _id: "",
+        name:""
+    })
 
     const [data, setData] = useState({
         name: ""
@@ -27,8 +31,16 @@ export default function EditarCategoria() {
         setShow(true)
     }
 
+    const resetData = () =>{
+        setData({
+            name:""
+        })
+    }
+
     const onCLose = () => {
         setShow(false)
+        resetData()
+        setAccess(false)
     }
 
     const handleOnChange = (event) => {
@@ -37,23 +49,25 @@ export default function EditarCategoria() {
 
     const handleCheck = async (event) => {
 
-        const response = await axios.get(`https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/category/${event.target.value}`)
+        const response = await axios.get(`https://mern-crud-back-silk.vercel.app/api/category/${event.target.value}`)
         console.log(response.data)
         setCategoria(response.data)
+        setAccess(true)
     }
 
     const handleOnSubmit = async () => {
         try {
-            const response = await axios.put(`https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/category/${categoria._id}`, categoria)
+            const response = await axios.put(`https://mern-crud-back-silk.vercel.app/api/category/${categoria._id}`, categoria)
             console.log(response.data)
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
                 title: `${response.data.message}`
             })
-            const allCategories = await axios.get('https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/category')
-            dispatch(getAllCategoires(allCategories.data))
-            
+            dispatch(updateCategory(response.data.data))
+            // const allCategories = await axios.get('https://mern-crud-back-silk.vercel.app/api/category')
+            // dispatch(getAllCategoires(allCategories.data))
+            // resetData()
 
         } catch (error) {
             Swal.fire({
@@ -65,20 +79,22 @@ export default function EditarCategoria() {
         }
     }
 
-    const deleteCategory = async () => {
+    const handleDeleteCategory = async () => {
         try {
-            const response = await axios.delete(`https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/category/${categoria._id}`)
+            const response = await axios.delete(`https://mern-crud-back-silk.vercel.app/api/category/${categoria._id}`)
+            console.log(response)
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: `${response.data.message}`
+                // title: `${response.data.message}`
+                title: 'Catgoria eliminada'
             })
-            setData({
-                name:""
-            })
-            setCategoria(undefined)
-            const allCategories = await axios.get('https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/category')
-            dispatch(getAllCategoires(allCategories.data))
+            dispatch(deleteCategory(categoria._id))
+            resetData()
+            setAccess(false)
+            // setCategoria(undefined)
+            // const allCategories = await axios.get('https://mern-crud-back-silk.vercel.app/api/category')
+            // dispatch(getAllCategoires(allCategories.data))
             
         } catch (error) {
             Swal.fire({
@@ -101,10 +117,7 @@ export default function EditarCategoria() {
         })
     }, [categoria])
 
-    useEffect(() => {
-        console.log(categoria)
-    }, [])
-
+    console.log(data)
 
     return (
         <>
@@ -153,26 +166,24 @@ export default function EditarCategoria() {
                                     onChange={handleOnChange}
                                 />
                             </Form.Group>
-                            {
-                                categoria !== undefined
-                                    ?
-                                    <div style={{ display: 'flex', justifyContent: "end" }}>
-                                        <Button onClick={deleteCategory} style={{ textAlign: "right" }} variant='danger'>Elimiar</Button>
-                                    </div>
-                                    :
-                                    <></>
-                            }
-
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>
+                        {
+                            access === true
+                            ?
+                            <Button onClick={handleDeleteCategory} style={{ textAlign: "right" }} variant='danger'>Elimiar</Button>
+                            :
+                            <></>
+                        }
                         <Button onClick={onCLose} variant='secondary'>Cerrar</Button>
                         {
-                            categoria === undefined
+                                
+                            access === true
                                 ?
-                                <Button variant='secondary'>Actualizar</Button>
-                                :
                                 <Button onClick={handleOnSubmit} variant='primary'>Actualizar</Button>
+                                :
+                                <Button variant='secondary'>Actualizar</Button>
                         }
 
                     </Modal.Footer>

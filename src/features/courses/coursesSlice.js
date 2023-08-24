@@ -39,6 +39,14 @@ export const coursesSlice = createSlice({
             state.filterCourses = sorted
 
         },
+        updateCourse:(state,action)=>{
+            const update = action.payload
+            const newArray = state.courses.filter(course=>{
+                return course._id !== update._id
+            })
+            state.courses = [...newArray,update]
+            state.filterCourses = [...newArray,update]
+        },
         sortUpdatedCourse: (state, action) => {
             const sorted = [...state.courses].sort((a, b) => {
                 const dateA = new Date(a.updatedAt);
@@ -47,6 +55,14 @@ export const coursesSlice = createSlice({
             });
 
             state.filterUpdatedCourses = sorted;
+        },
+        deleteCourse:(state,action)=>{
+            const newArray = state.courses.filter(course=>{
+                return course._id !== action.payload
+            })
+            state.courses = newArray
+            state.filterCourses = newArray
+            
         }
     }
 
@@ -58,6 +74,8 @@ export const {
     addCourse,
     sortCourses,
     sortUpdatedCourse,
+    deleteCourse,
+    updateCourse,
 } = coursesSlice.actions
 
 export default coursesSlice.reducer

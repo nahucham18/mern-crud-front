@@ -81,7 +81,7 @@ export default function CrearPersona() {
         setSubmitted(true)
         
         try {
-            const response = await axios.post('https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/user', values)
+            const response = await axios.post('https://mern-crud-back-silk.vercel.app/api/user', values)
             Swal.fire({
                 position:'top-end',
                 icon:'success',
@@ -157,7 +157,7 @@ export default function CrearPersona() {
                                             name='first_name'
                                             value={values.first_name}
                                             onChange={handleChange}
-                                            placeholder='Ingrse el nombre de la persona..'
+                                            placeholder='Ingrese el nombre de la persona..'
                                             isValid={touched.first_name && !errors.first_name}
                                             isInvalid={!!errors.first_name}
                                         />
@@ -217,7 +217,7 @@ export default function CrearPersona() {
                                         <Form.Label>Genero:</Form.Label>
                                         <Form.Select
                                             name='gender'
-                                            values={values.gender}
+                                            value={values.gender}
                                             onChange={handleChange}
                                             isValid={touched.gender && !errors.gender}
                                             isInvalid={!!errors.gender}

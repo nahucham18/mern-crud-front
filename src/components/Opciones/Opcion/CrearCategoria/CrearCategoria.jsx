@@ -51,7 +51,7 @@ export default function CrearCategoria() {
     const handleOnSubmit = async (values, {resetForm, setSubmitting }) => {
         setSubmitted(true)
         try {
-            const response = await axios.post('https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/category', values)
+            const response = await axios.post('https://mern-crud-back-silk.vercel.app/api/category', values)
             console.log(response.data)
             Swal.fire({
                 position: 'top-end',

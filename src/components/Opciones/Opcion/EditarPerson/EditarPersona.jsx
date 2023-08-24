@@ -8,7 +8,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Swal from 'sweetalert2';
-import { deleteUser, searchUsers } from '../../../../features/users/usersSlice';
+import { deleteUser, searchUsers, updateUser } from '../../../../features/users/usersSlice';
 
 export default function EditarPersona() {
 
@@ -61,7 +61,7 @@ export default function EditarPersona() {
     }
 
     // const getAllUsers = async () => {
-    //     const response = await axios.get('https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/user')
+    //     const response = await axios.get('https://mern-crud-back-silk.vercel.app/api/user')
     //     console.log(response.data)
     //     setUsers(response.data)
 
@@ -69,7 +69,7 @@ export default function EditarPersona() {
 
     const handleDeleteUser = async()=>{
         try {
-            const response = axios.delete(`https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/user/${user._id}`)
+            const response = axios.delete(`https://mern-crud-back-silk.vercel.app/api/user/${user._id}`)
             console.log(response)
             Swal.fire({
                 position: 'top-end',
@@ -93,7 +93,7 @@ export default function EditarPersona() {
 
     const handleCheck = async (event) => {
 
-        const response = await axios.get(`https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/user/${event.target.value}`)
+        const response = await axios.get(`https://mern-crud-back-silk.vercel.app/api/user/${event.target.value}`)
         console.log(response.data)
         setUser(response.data)
         setAccess(true)
@@ -107,13 +107,14 @@ export default function EditarPersona() {
         console.log(user._id)
         console.log(data)
         try {
-            const response = await axios.put(`https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/user/${user._id}`, data)
+            const response = await axios.put(`https://mern-crud-back-silk.vercel.app/api/user/${user._id}`, data)
             console.log(response)
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
                 title: 'Usuario actualizado'
             })
+            dispatch(updateUser(response.data.data))
         } catch (error) {
             console.log(error)
             Swal.fire({
@@ -223,7 +224,7 @@ export default function EditarPersona() {
                         <Form.Group>
                             <Form.Label>Genero:</Form.Label>
                             <Form.Select name='gender' onChange={handleOnChange} value={data.gender}>
-                                <option  value="">Seleccione genero</option>
+                                <option value="" >Seleccione genero</option>
                                 <option value="hombre">Hombre</option>
                                 <option value="mujer">Mujer</option>
                             </Form.Select>

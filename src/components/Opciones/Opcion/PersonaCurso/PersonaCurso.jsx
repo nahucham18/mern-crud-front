@@ -10,7 +10,7 @@ import axios from 'axios';
 
 import Swal from 'sweetalert2';
 import { useDispatch, useSelector } from 'react-redux';
-import { searchUsers } from '../../../../features/users/usersSlice';
+import { searchUsers, updateUser } from '../../../../features/users/usersSlice';
 import { searchCourses } from '../../../../features/courses/coursesSlice';
 
 export default function PersonaCurso() {
@@ -47,20 +47,20 @@ export default function PersonaCurso() {
 
     const handleCheckUser = async (event) => {
         console.log(event.target.value)
-        const response = await axios.get(`https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/user/${event.target.value}`)
+        const response = await axios.get(`https://mern-crud-back-silk.vercel.app/api/user/${event.target.value}`)
         setUser(response.data)
     }
 
     const handleCheckCourse = async (event) => {
         console.log(event.target.value)
-        const response = await axios.get(`https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/course/${event.target.value}`)
+        const response = await axios.get(`https://mern-crud-back-silk.vercel.app/api/course/${event.target.value}`)
         console.log(response.data)
         setCurso(response.data)
     }
 
     const putUser = async () => {
         try {
-            const response = await axios.put(`https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/user/${user._id}`, { courses: curso._id });
+            const response = await axios.put(`https://mern-crud-back-silk.vercel.app/api/user/${user._id}`, { courses: curso._id });
             console.log(response.data.data);
             const newCourse = response.data.data.courses.slice(-1)[0]
             console.log({ newCourse: newCourse })
@@ -70,6 +70,7 @@ export default function PersonaCurso() {
                 title: `Se agrego exitosamente`,
                 text: `${response.data.data.first_name} se agrego a ${response.data.data.courses.slice(-1)[0].name}`
             })
+            dispatch(updateUser(response.data.data))
         } catch (error) {
             Swal.fire({
                 position: 'top',

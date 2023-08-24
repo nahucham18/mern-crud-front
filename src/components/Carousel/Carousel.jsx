@@ -81,7 +81,7 @@ function Carouse() {
             controls={courses.length > itemsPerSlide}
         >
             {Array.from({ length: Math.ceil(courses?.length / itemsPerSlide) }).map((_, index) => (
-                <Carousel.Item key={index} style={{ background: 'rgb(97,183,232', padding: '1rem ' }}>
+                <Carousel.Item key={index} style={{ background: 'rgba(1,1,1,0.7)', padding: '1rem ' }}>
                     <div className="container d-flex">
                         {renderSlide(index * itemsPerSlide)}
                     </div>

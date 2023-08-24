@@ -26,6 +26,14 @@ export const usersSlice = createSlice({
             }
 
         },
+        updateUser:(state,action)=>{
+            const update = action.payload
+            const newArray = state.users.filter(user=>{
+                return user._id !== update._id
+            })
+            state.users = [...newArray,update]
+            state.filterUsers = [...newArray,update]
+        },
         deleteUser:(state,action)=>{
             const newArray = state.users.filter(user=>{
                 return user._id !== action.payload;
@@ -40,6 +48,7 @@ export const {
     getAllUsers,
     searchUsers,
     deleteUser,
+    updateUser,
     addNewUser } = usersSlice.actions
 
 export default usersSlice.reducer

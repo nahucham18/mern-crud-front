@@ -13,11 +13,11 @@ export default function Home() {
     const dispatch = useDispatch()
 
     const getData = async () => {
-        const users = await axios.get('https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/user')
+        const users = await axios.get('https://mern-crud-back-silk.vercel.app/api/user')
         dispatch(getAllUsers(users.data))
-        const categories = await axios.get('https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/category')
+        const categories = await axios.get('https://mern-crud-back-silk.vercel.app/api/category')
         dispatch(getAllCategoires(categories.data))
-        const courses = await axios.get('https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/course')
+        const courses = await axios.get('https://mern-crud-back-silk.vercel.app/api/course')
         dispatch(getAllCourses(courses.data))
         dispatch(sortUpdatedCourse())
     }

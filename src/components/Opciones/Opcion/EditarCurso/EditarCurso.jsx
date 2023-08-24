@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Swal from 'sweetalert2';
 import { searchUsers } from '../../../../features/users/usersSlice';
-import { sortUpdatedCourse } from '../../../../features/courses/coursesSlice';
+import { deleteCourse, sortUpdatedCourse, updateCourse } from '../../../../features/courses/coursesSlice';
 
 export default function EditarPersona() {
 
@@ -18,9 +18,20 @@ export default function EditarPersona() {
     const courses = useSelector(state => state.courses.filterCourses)
     const categories = useSelector(state => state.category.categories)
 
+
     const [show, setShow] = useState(false);
+    const [access, setAccess] = useState(false)
     // const [users, setUsers] = useState()
-    const [course, setCourse] = useState()
+    const [category, setCatgory] =useState({
+        _id:"",
+        name:""
+    })
+    const [course, setCourse] = useState({
+        _id: "",
+        name: "",
+        description: "",
+        categoryID: "",
+    })
     const [data, setData] = useState(
         {
             name: "",
@@ -33,8 +44,18 @@ export default function EditarPersona() {
         setShow(true);
     }
 
+    const resetData = () => {
+        setData({
+            name: "",
+            description: "",
+            categoryID: "",
+        })
+    }
+
     const onClose = () => {
+        resetData()
         setShow(false)
+        setAccess(false)
     }
 
     const searchUser = (event) => {
@@ -42,17 +63,44 @@ export default function EditarPersona() {
     }
 
     // const getAllUsers = async () => {
-    //     const response = await axios.get('https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/user')
+    //     const response = await axios.get('https://mern-crud-back-silk.vercel.app/api/user')
     //     console.log(response.data)
     //     setUsers(response.data)
 
     // }
 
+    const handleDeleteCourse = async () => {
+        try {
+            const response = await axios.delete(`https://mern-crud-back-silk.vercel.app/api/course/${course._id}`)
+            console.log(response)
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Curso eliminado'
+            })
+            dispatch(deleteCourse(course._id))
+            setAccess(false)
+            resetData()
+
+        } catch (error) {
+            console.log(error)
+            Swal.fire({
+                position: 'top-end',
+                icon: 'error',
+                title: 'Error',
+                text: error.response.data.message,
+            })
+
+        }
+    }
+
     const handleCheck = async (event) => {
 
-        const response = await axios.get(`https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/course/${event.target.value}`)
+        const response = await axios.get(`https://mern-crud-back-silk.vercel.app/api/course/${event.target.value}`)
         console.log(response.data)
         setCourse(response.data)
+        setCatgory(response.data.category)
+        setAccess(true)
     }
 
     const handleOnChange = (event) => {
@@ -63,13 +111,14 @@ export default function EditarPersona() {
         console.log(course._id)
         console.log(data)
         try {
-            const response = await axios.put(`https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/course/${course._id}`, data)
+            const response = await axios.put(`https://mern-crud-back-silk.vercel.app/api/course/${course._id}`, data)
             console.log(response)
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
                 title: 'Usuario actualizado'
             })
+            dispatch(updateCourse(response.data.data))
             dispatch(sortUpdatedCourse())
         } catch (error) {
             console.log(error)
@@ -91,7 +140,7 @@ export default function EditarPersona() {
         setData({
             name: course?.name || "",
             description: course?.description || "",
-            categoryID: course?.category?._id || "",
+            categoryID: category?._id || "",
         })
     }, [course])
 
@@ -99,9 +148,9 @@ export default function EditarPersona() {
 
     return (
         <>
-            <div className='col-6 col-sm-6 col-md-6 col-lg-4 mb-3 px-3'style={{margin:'0 auto'}}>
+            <div className='col-6 col-sm-6 col-md-6 col-lg-4 mb-3 px-3' style={{ margin: '0 auto' }}>
                 <article className="card pointer" onClick={onShow} style={{ height: '200px' }}>
-                    <img className='cardImage' src={imgOpc} alt="img-editar-persona" style={{ height: '80%' ,objectFit:'contain' }} />
+                    <img className='cardImage' src={imgOpc} alt="img-editar-persona" style={{ height: '80%', objectFit: 'contain' }} />
                     <h3 className='card-title card-title-custom'>Editar curso</h3>
                 </article>
             </div>
@@ -163,7 +212,7 @@ export default function EditarPersona() {
                                 categories
                                     ?
                                     <Form.Select name='categoryID' onChange={handleOnChange} value={data.categoryID}>
-                                        <option disabled  value="">Seleccione una categoria</option>
+                                        <option disabled value="">Seleccione una categoria</option>
                                         {
                                             categories?.map((category, index) => {
                                                 return (
@@ -181,13 +230,21 @@ export default function EditarPersona() {
 
                     </Form>
                     <Modal.Footer>
-                        <Button onClick={onClose} variant='secondary'>Cerrar</Button>
                         {
-                            course === undefined
+                            access === true
+                            ?
+                            <Button onClick={handleDeleteCourse} variant='danger'>Eliminar</Button>
+                            :
+                            <></>
+                        }
+                        <Button onClick={onClose} 
+                        variant='secondary'>Cerrar</Button>
+                        {
+                            access === true
                                 ?
-                                <Button variant='secondary'>Guardar Cambios</Button>
-                                :
                                 <Button onClick={handleOnSubmit} variant='primary'>Guardar Cambios</Button>
+                                :
+                                <Button variant='secondary'>Guardar Cambios</Button>
                         }
 
 
