@@ -47,7 +47,7 @@ export default function ContainerOpciones() {
 
 
     return (
-        <section style={{ margin:'0 auto'}}>
+        <section className='py-4' style={{ margin:'0 auto'}}>
             {
                 showStats ?
                     <ContainerStadisticas onClose={onClose} />
@@ -68,7 +68,7 @@ export default function ContainerOpciones() {
                         </Row>
             }
 
-            <Card style={{ width: '18rem' }}>
+            {/* <Card style={{ width: '18rem' }}>
                 <Card.Img variant="top" src="holder.js/100px180" />
                 <Card.Body style={{textAlign:'left'}}>
                     <Card.Title>Card Title</Card.Title>
@@ -78,7 +78,7 @@ export default function ContainerOpciones() {
                     </Card.Text>
                     <Button variant="primary">Go somewhere</Button>
                 </Card.Body>
-            </Card>
+            </Card> */}
 
         </section>
     )

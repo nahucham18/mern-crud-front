@@ -15,6 +15,8 @@ import * as formik from 'formik';
 import * as yup from 'yup';
 
 import Swal from 'sweetalert2';
+import { useDispatch } from 'react-redux';
+import { addNewUser } from '../../../../features/users/usersSlice';
 
 
 export default function CrearPersona() {
@@ -31,6 +33,7 @@ export default function CrearPersona() {
     //         console.log(values)
     //     }
     // })
+    const dispatch = useDispatch()
 
     const { Formik } = formik
     const [submitted, setSubmitted] = useState(false)
@@ -73,7 +76,7 @@ export default function CrearPersona() {
         }
     )
 
-    const handleOnSubmit = async (values, { setSubmitting }) => {
+    const handleOnSubmit = async (values, { resetForm, setSubmitting }) => {
         console.log('entre')
         setSubmitted(true)
         
@@ -84,7 +87,8 @@ export default function CrearPersona() {
                 icon:'success',
                 title: `${response.data.message}`
             })
-            
+            dispatch(addNewUser(response.data.data))
+            resetForm()
 
         } catch (error) {
             console.log(error)
@@ -218,7 +222,7 @@ export default function CrearPersona() {
                                             isValid={touched.gender && !errors.gender}
                                             isInvalid={!!errors.gender}
                                         >
-                                            <option disabled selected value="">Selecciona genero</option>
+                                            <option disabled  value="">Selecciona genero</option>
                                             <option value="hombre">Hombre</option>
                                             <option value="mujer">Mujer</option>
                                         </Form.Select>

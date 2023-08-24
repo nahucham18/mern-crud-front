@@ -8,7 +8,7 @@ import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Swal from 'sweetalert2';
-import { searchUsers } from '../../../../features/users/usersSlice';
+import { deleteUser, searchUsers } from '../../../../features/users/usersSlice';
 
 export default function EditarPersona() {
 
@@ -17,8 +17,16 @@ export default function EditarPersona() {
     const users = useSelector(state => state.users.filterUsers)
 
     const [show, setShow] = useState(false);
+    const [access, setAccess] =useState(false)
     // const [users, setUsers] = useState()
-    const [user, setUser] = useState()
+    const [user, setUser] = useState({
+        _id: "",  // Inicializar con un objeto vacío en lugar de undefined
+        first_name: "",
+        last_name: "",
+        dni: 0,
+        age: 0,
+        gender: "",
+    });
     const [data, setData] = useState(
         {
             first_name: "",
@@ -32,9 +40,20 @@ export default function EditarPersona() {
     const onShow = () => {
         setShow(true);
     }
+    const resetData = ()=>{
+        setData({
+            first_name: "",
+            last_name: "",
+            dni: 0,
+            age: 0,
+            gender: "",
+        })
+    }
 
     const onClose = () => {
+        resetData()
         setShow(false)
+        setAccess(false)
     }
 
     const searchUser = (event) => {
@@ -48,11 +67,36 @@ export default function EditarPersona() {
 
     // }
 
+    const handleDeleteUser = async()=>{
+        try {
+            const response = axios.delete(`https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/user/${user._id}`)
+            console.log(response)
+            Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Usuario eliminado'
+            })
+            dispatch(deleteUser(user._id))
+            setAccess(false)
+            resetData()
+        } catch (error) {
+            console.log(error)
+            Swal.fire({
+                position: 'top-end',
+                icon: 'error',
+                title: 'Error',
+                text: error.response.data.message,
+            })
+            
+        }
+    }
+
     const handleCheck = async (event) => {
 
         const response = await axios.get(`https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/user/${event.target.value}`)
         console.log(response.data)
         setUser(response.data)
+        setAccess(true)
     }
 
     const handleOnChange = (event) => {
@@ -94,6 +138,7 @@ export default function EditarPersona() {
             age: user?.age,
             gender: user?.gender
         })
+        
     }, [user])
 
     console.log(data)
@@ -122,7 +167,7 @@ export default function EditarPersona() {
                                                     <Form.Check key={index + 1} type='radio'>
                                                         <Form.Check.Input type='radio'
                                                             name='id' id={index + 1} value={user._id}
-                                                            onChange={handleCheck}
+                                                            onChange={handleCheck} 
                                                         />
                                                         <Form.Check.Label>DNI-{user.dni} - {user.last_name} {user.first_name}</Form.Check.Label>
                                                     </Form.Check>
@@ -178,20 +223,27 @@ export default function EditarPersona() {
                         <Form.Group>
                             <Form.Label>Genero:</Form.Label>
                             <Form.Select name='gender' onChange={handleOnChange} value={data.gender}>
-                                <option disabled value="">Seleccione genero</option>
+                                <option  value="">Seleccione genero</option>
                                 <option value="hombre">Hombre</option>
                                 <option value="mujer">Mujer</option>
                             </Form.Select>
                         </Form.Group>
                     </Form>
                     <Modal.Footer>
+                        {
+                            access === true
+                            ?
+                            <Button onClick={handleDeleteUser} variant='danger'>Eliminar</Button>
+                            :
+                            <></>
+                        }
                         <Button onClick={onClose} variant='secondary'>Cerrar</Button>
                         {
-                            user === undefined
+                            access === true
                                 ?
-                                <Button variant='secondary'>Guardar Cambios</Button>
-                                :
                                 <Button onClick={handleOnSubmit} variant='primary'>Guardar Cambios</Button>
+                                :
+                                <Button variant='secondary'>Guardar Cambios</Button>
                         }
 
 

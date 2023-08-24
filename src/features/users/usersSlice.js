@@ -11,6 +11,10 @@ export const usersSlice = createSlice({
             state.users = action.payload
             state.filterUsers = action.payload
         },
+        addNewUser:(state,action)=>{
+            state.users = [...state.users,action.payload]
+            state.filterUsers = state.users
+        },
         searchUsers: (state, action) => {
             if (!action.payload) {
                 state.filterUsers = state.users
@@ -21,12 +25,21 @@ export const usersSlice = createSlice({
                 state.filterUsers = newUsers;
             }
 
+        },
+        deleteUser:(state,action)=>{
+            const newArray = state.users.filter(user=>{
+                return user._id !== action.payload;
+            })
+            state.users = newArray
+            state.filterUsers = newArray
         }
     }
 })
 
 export const { 
     getAllUsers,
-    searchUsers } = usersSlice.actions
+    searchUsers,
+    deleteUser,
+    addNewUser } = usersSlice.actions
 
 export default usersSlice.reducer

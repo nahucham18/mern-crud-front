@@ -48,7 +48,7 @@ export default function CrearCategoria() {
         setCategoria({ ...categoria, [event.target.name]: event.target.value })
     }
 
-    const handleOnSubmit = async (values, { setSubmitting }) => {
+    const handleOnSubmit = async (values, {resetForm, setSubmitting }) => {
         setSubmitted(true)
         try {
             const response = await axios.post('https://mern-crud-back-g6vxux25g-nahucham18.vercel.app/api/category', values)
@@ -59,7 +59,7 @@ export default function CrearCategoria() {
                 title: `${response.data.message}`
             })
             dispatch(addCategory(response.data.data))
-
+            resetForm()
         } catch (error) {
             Swal.fire({
                 position: 'top',
@@ -74,7 +74,7 @@ export default function CrearCategoria() {
     return (
         <>
             <div className='col-6 col-sm-6 col-md-6 col-lg-4 mb-3 px-3'style={{margin:'0 auto'}}>
-                <article className="card pointer" onClick={onShow} style={{ height: '200px' }}>
+                <article className="card pointer " onClick={onShow} style={{ height: '200px'}}>
                     <img className='cardImage' src={imgOpc} alt="img-crear-categoria" style={{ height: '80%' ,objectFit: 'contain'}} />
                     <h3 className='card-title card-title-custom'>Crear categoria</h3>
                 </article>

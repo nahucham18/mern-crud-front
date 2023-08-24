@@ -29,7 +29,7 @@ export default function Home() {
 
     return (
         <main className='d-flex justify-content-center ' style={{backgroundColor:'rgba(1,1,1,0.4)'}}>
-            <div className='' style={{ width: '100%' , padding:'4rem 0 0 0', backgroundColor:'rgb(255,255,255'}}>
+            <div className='' style={{ width: '100%' , padding:'4rem 0 ', backgroundColor:'rgb(255,255,255'}}>
                 <h2 className='mb-3 fs-1' style={{ textAlign: 'left', paddingLeft: '1rem', fontWeight:"bold" }}>Cursos actualizados </h2>
                 <Carousel />
                 <div className='col-10 col-sm-10 col-md-8 col-lg-9 col-xl-8' style={{margin: '0 auto'}}>

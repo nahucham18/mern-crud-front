@@ -34,12 +34,13 @@ export default function AgeChartPie({users}){
     
     return (
       <>
-      <div>
+      <div className="my-4" style={{width:'100%',height:'250px'}}>
+        <h3>Mayores de 18</h3>
         {
           (users)
           ?
           <Pie data={{
-            labels:['menores','mayores'],
+            labels:['Menores','Mayores'],
             datasets:[
               {
                 data: [menores?.length, mayores?.length],

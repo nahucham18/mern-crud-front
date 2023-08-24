@@ -45,7 +45,7 @@ export default function CrearCurso() {
             .min(2, 'Min 2 caracteres'),
         categoryID: yup
             .string()
-            .required('Se requiere DNI')
+            .required('Se requiere categoria')
     });
 
     const onShow = () => {
@@ -65,7 +65,7 @@ export default function CrearCurso() {
     //     setCategorias(categories.data);
     // }
 
-    const handleOnSubmit = async (values, { setSubmitting }) => {
+    const handleOnSubmit = async (values, {resetForm, setSubmitting }) => {
         setSubmitted(true)
         console.log(values)
         try {
@@ -77,6 +77,7 @@ export default function CrearCurso() {
                 title: response.data.message
             })
             dispatch(addCourse(response.data.data))
+            resetForm()
 
         } catch (error) {
             Swal.fire({
@@ -158,17 +159,17 @@ export default function CrearCurso() {
                                                 <Form.Label>Elegir categoria:</Form.Label>
                                                 <Form.Select 
                                                     name='categoryID' 
-                                                    values={values.categoryID}
+                                                    value={values.categoryID}
                                                     onChange={handleChange}
                                                     isValid={touched.categoryID && !errors.categoryID}
                                                     isInvalid={!!errors.categoryID}
                                                     >
-                                                    <option selected disabled value="">Seleccione una categoria</option>
+                                                    <option selected value="">Seleccione una categoria</option>
                                                     {
                                                         categorias?.map((category, index) => {
                                                             return (
                                                                 <option key={index} value={category._id}>{category.name}</option>
-                                                            )
+                                                                )
                                                         })
                                                     }
                                                 </Form.Select>

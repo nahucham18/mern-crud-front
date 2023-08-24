@@ -35,12 +35,13 @@ export default function CourseChartPie({users}){
   console.log(mujeres?.length)
   return (
     <>
-    <div>
+    <div className='my-4' style={{width:'100%' , height:'250px'}}>
+      <h3>Por genero</h3>
       {
         (users)
         ?
         <Pie data={{
-          labels:['hombres','mujeres'],
+          labels:['Hombres','Mujeres'],
           datasets:[
             {
               data: [hombres?.length, mujeres?.length],
