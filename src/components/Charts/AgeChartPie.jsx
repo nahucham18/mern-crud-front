@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 // import { Doughnut } from "react-chartjs-2";
 import {Pie} from 'react-chartjs-2';
 import axios from 'axios';
+import { Col, Row } from "react-bootstrap";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -34,11 +35,14 @@ export default function AgeChartPie({users}){
     
     return (
       <>
-      <div className="my-4" style={{width:'100%',height:'250px'}}>
+      <Row className="mt-5" style={{width:'100%',height:'300px'}}>
+        <Col className="col-12">
         <h3>Mayores de 18</h3>
+        </Col>
         {
           (users)
           ?
+          <Col className="col-12">
           <Pie data={{
             labels:['Menores','Mayores'],
             datasets:[
@@ -52,12 +56,13 @@ export default function AgeChartPie({users}){
           options={{maintainAspectRatio: false,
             responsive: true,}}
           />
+          </Col>
           :
           <></>
         }
         
         
-      </div>
+      </Row>
         
       
       </>

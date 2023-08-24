@@ -97,9 +97,8 @@ export default function CrearCurso() {
 
     return (
         <>
-            <div className='col-6 col-sm-6 col-md-6 col-lg-4 mb-3 px-3'style={{margin:'0 auto'}}>
-
-                <article className="card pointer" onClick={onShow} style={{height:'200px'}}>
+            <div className='col-10 col-sm-6 col-md-5 col-lg-4 mb-3 px-3'style={{margin:'0 auto'}}>
+                <article className='card pointer col-10 col-md-12' onClick={onShow} style={{height:'200px',margin:'0 auto '}}>
                     <img className={style.cardImage} src={imgOpc} alt="img-crear-curso" style={{height:'80%'}}/>
                     <h3 className='card-title card-title-custom'>Crear curso</h3>
                 </article>

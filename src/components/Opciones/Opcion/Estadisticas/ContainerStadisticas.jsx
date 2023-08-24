@@ -7,6 +7,7 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 import { useDispatch, useSelector } from 'react-redux';
 import { searchCourses } from '../../../../features/courses/coursesSlice';
+import { Col, Row } from 'react-bootstrap';
 
 export default function ContainerStadisticas({ onClose }) {
 
@@ -15,8 +16,8 @@ export default function ContainerStadisticas({ onClose }) {
     const [users, setUsers] = useState()
 
     const dispatch = useDispatch()
-    const categories = useSelector(state=>state.category.categories)
-    const courses = useSelector(state=>state.courses.filterCourses)
+    const categories = useSelector(state => state.category.categories)
+    const courses = useSelector(state => state.courses.filterCourses)
 
     const searchCategory = (event) => {
         dispatch(searchCourses(event.target.value))
@@ -53,88 +54,87 @@ export default function ContainerStadisticas({ onClose }) {
     console.log(users)
 
     return (
-        <div className="container d-flex flex-wrap jutify-content-center ">
-            <Button className='mb-3' variant='dark' onClick={() => onClose('stats')}>Volver</Button>
-            <div className="container  ">
-                <div className="row">
-                    <div className="container col-sm-6">
-                        <Card style={{height:'100%'}}>
+        <Col className="container col-11 col-sm-10 col-md-8 col-lg-7" style={{margin:'0 auto'}}>
+            <Row>
+                <Button size='sm' className='mb-3 col-3 col-sm-2 col-lg-1' variant='dark'
+                style={{minWidth:'70px'}}
+                onClick={() => onClose('stats')}>Volver</Button>
+            </Row>
+            <Row className=''>
+                <Col className="col-12 col-md-10 col-lg-6 bg-body-secondary" style={{margin:'0 auto'}}>
+
+                    <Form>
+                        <Form.Select className='mb-3' name='categoryID' onChange={searchCategory}>
+                            <option value="">Seleccione una categoria</option>
+                            <option value="all">Toda las categorias</option>
                             {
-                                course ?
-                                    <>
-                                        <Card.Img variant="top" src={course?.img_course} />
-                                        <Card.Body style={{ textAlign: 'left', height: '50%   ' }}>
-                                            <Card.Title>{course ? course?.name : "Titulo del curso"}</Card.Title>
-                                            <Card.Text>{course ? course?.description : "Descripcion del curso"}</Card.Text>
-                                            <Card.Text>{course ? course?.category?.name : "Categoria del curso"}</Card.Text>
-                                        </Card.Body>
-                                    </>
-                                    :
-                                    <>
-                                        <Card.Body className="d-flex flex-column align-items-center justify-content-center" style={{ height: '100%' }}>
-                                            <Card.Title className='fs-2 fw-bold mb-3'>{"Titulo del curso"}</Card.Title>
-                                            <Card.Text>{"Descripcion del curso"}</Card.Text>
-                                            <Card.Text>{"Categoria del curso"}</Card.Text>
-                                        </Card.Body>
-                                    </>
-                            }   
-
-
-                        </Card>
-                    </div>
-
-                    <div className="col-md-6 bg-body-secondary">
-                        <div className="container">
-                            <Form>
-                                <Form.Select className='mb-3' name='categoryID' onChange={searchCategory}>
-                                    <option value="">Seleccione una categoria</option>
-                                    <option value="all">Toda las categorias</option>
-                                    {
-                                        categories?.map((category, index) => {
-                                            return (
-                                                <option value={category?._id} key={index}>{category?.name}</option>
-                                            )
-                                        })
-                                    }
-                                </Form.Select>
-                                <div className='overflow-y-scroll' style={{ height: '200px' }}>
-                                    {
-                                        courses?.map((course, index) => {
-                                            return (
-                                                <Form.Check type='radio' key={index + 1} style={{ textAlign: 'left' }}>
-                                                    <Form.Check.Input type='radio' name='id' id={index + 1} onChange={handleCheck} value={course?._id} />
-                                                    <Form.Check.Label>{course?.category?.name} - {course?.name}</Form.Check.Label>
-                                                </Form.Check>
-                                            )
-                                        })
-                                    }
-                                </div>
-                            </Form>
+                                categories?.map((category, index) => {
+                                    return (
+                                        <option value={category?._id} key={index}>{category?.name}</option>
+                                    )
+                                })
+                            }
+                        </Form.Select>
+                        <div className='overflow-y-scroll' style={{ height: '200px' }}>
+                            {
+                                courses?.map((course, index) => {
+                                    return (
+                                        <Form.Check type='radio' key={index + 1} style={{ textAlign: 'left' }}>
+                                            <Form.Check.Input type='radio' name='id' id={index + 1} onChange={handleCheck} value={course?._id} />
+                                            <Form.Check.Label>{course?.category?.name} - {course?.name}</Form.Check.Label>
+                                        </Form.Check>
+                                    )
+                                })
+                            }
                         </div>
-                    </div>
-                </div>
-                <div className='container mt-5' style={{ width: "100%", height: "100%", padding: "10px 0", maxHeight: "400px", maxWidth: "600px" }}>
-                    {
-                        users ?
-                            <h2 className='fw-bold fs-2'>Usuarios: {users.length}</h2>
-                            :
-                            <></>
-                    }
+                    </Form>
 
-                    <div className="row">
-                        <div className="col-md-6">
+                </Col>
+                <Col className=" col-12 col-md-10 col-lg-6" style={{margin:'0 auto'}}>
+                    <Card style={{ height: '100%' }}>
+                        {
+                            course ?
+                                <>
+                                    <Card.Img variant="top" src={course?.img_course} />
+                                    <Card.Body style={{ textAlign: 'left', height: '50%   ' }}>
+                                        <Card.Title>{course ? course?.name : "Titulo del curso"}</Card.Title>
+                                        <Card.Text>{course ? course?.description : "Descripcion del curso"}</Card.Text>
+                                        <Card.Text>{course ? course?.category?.name : "Categoria del curso"}</Card.Text>
+                                    </Card.Body>
+                                </>
+                                :
+                                <>
+                                    <Card.Body className="d-flex flex-column align-items-center justify-content-center" style={{ height: '100%' }}>
+                                        <Card.Title className='fs-2 fw-bold mb-3'>{"Titulo del curso"}</Card.Title>
+                                        <Card.Text>{"Descripcion del curso"}</Card.Text>
+                                        <Card.Text>{"Categoria del curso"}</Card.Text>
+                                    </Card.Body>
+                                </>
+                        }
+
+
+                    </Card>
+                </Col>
+
+            </Row>
+            <Row>
+                {
+                    users ?
+                        <h2 className='fw-bold fs-2'>Usuarios: {users.length}</h2>
+                        :
+                        <></>
+                }
+            </Row>
+            <Row className=''>
+                        <Col className=" col-12 col-sm-6">
                             <CourseChartPie users={users} />
-                        </div>
-                        <div className="col-md-6">
+                        </Col>
+                        <Col className="col-12 col-sm-6">
                             <AgeChartPie users={users} />
-                        </div>
+                        </Col>
+            </Row>
 
 
-                    </div>
-                </div>
-            </div>
-
-
-        </div>
+        </Col>
     )
 }

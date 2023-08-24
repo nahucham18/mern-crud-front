@@ -121,8 +121,8 @@ export default function EditarCategoria() {
 
     return (
         <>
-            <div className='col-6 col-sm-6 col-md-6 col-lg-4 mb-3 px-3'style={{margin:'0 auto'}}>
-                <article className="card pointer" onClick={onShow} style={{ height: '200px' }}>
+            <div className='col-10 col-sm-6 col-md-5 col-lg-4 mb-3 px-3'style={{margin:'0 auto'}}>
+                <article className='card pointer col-10 col-md-12' onClick={onShow} style={{height:'200px',margin:'0 auto '}}>
                     <img className='cardImage' src={imgOpc} alt="img-crear-categoria" style={{ height: '80%' ,objectFit: 'contain'}} />
                     <h3 className='card-title card-title-custom'>Editar categoria</h3>
                 </article>

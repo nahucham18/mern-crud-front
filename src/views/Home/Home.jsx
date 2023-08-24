@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { getAllUsers } from '../../features/users/usersSlice';
 import { getAllCategoires } from '../../features/category/categorySlica';
 import { getAllCourses, sortUpdatedCourse } from '../../features/courses/coursesSlice';
+import { Col, Row } from 'react-bootstrap';
 
 export default function Home() {
 
@@ -28,15 +29,22 @@ export default function Home() {
     }, [])
 
     return (
-        <main className='d-flex justify-content-center ' style={{backgroundColor:'rgba(1,1,1,0.4)'}}>
-            <div className='' style={{ width: '100%' , padding:'4rem 0 ', backgroundColor:'rgb(255,255,255'}}>
-                <h2 className='mb-3 fs-1' style={{ textAlign: 'left', paddingLeft: '1rem', fontWeight:"bold" }}>Cursos actualizados </h2>
+        <main className='container-fluid p-0' >
+            <div className='cointer'>
+                <Col>
+                <h2 className='mb-3 fs-1' style={{ textAlign: 'left', paddingLeft: '1rem', fontWeight: "bold" }}>Cursos actualizados </h2>
+                </Col>
+            </div>
+            <Row>
                 <Carousel />
-                <div className='col-10 col-sm-10 col-md-8 col-lg-9 col-xl-8' style={{margin: '0 auto'}}>
+            </Row>
+            <div>
+
                     <h2 className='mb-4' style={{ fontWeight: 'bold', fontSize: "2rem" }}>Opciones</h2>
+            </div>
+                <div className='col-8 col-sm-10 col-md-8 col-lg-7 col-xl-6' style={{margin:'0 auto'}}>
                     <Opciones />
                 </div>
-            </div>
         </main>
 
     )

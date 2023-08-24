@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Carousel } from 'react-bootstrap';
+import { Carousel, Col } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
@@ -34,7 +34,7 @@ function Carouse() {
                                                 ?
                                                 <Card.Text style={{fontSize:"0.8rem" }}>{course?.category?.name} </Card.Text>
                                                 :
-                                                <Card.Text>"</Card.Text>
+                                                <Card.Text style={{fontSize:"0.8rem" }}>"</Card.Text>
 
                                         }
                                         <Button size='sm' variant="primary">Go somewhere</Button>
@@ -72,22 +72,24 @@ function Carouse() {
     }, [])
 
     return (
-        <Carousel
-            className=' mb-5 '
-            activeIndex={activeIndex}
-            onSelect={handleSelect}
-            interval={null}
-            indicators={false}
-            controls={courses.length > itemsPerSlide}
-        >
-            {Array.from({ length: Math.ceil(courses?.length / itemsPerSlide) }).map((_, index) => (
-                <Carousel.Item key={index} style={{ background: 'rgba(1,1,1,0.7)', padding: '1rem ' }}>
-                    <div className="container d-flex">
-                        {renderSlide(index * itemsPerSlide)}
-                    </div>
-                </Carousel.Item>
-            ))}
-        </Carousel>
+        <Col className='col-12'>
+            <Carousel
+                className=' mb-5 '
+                activeIndex={activeIndex}
+                onSelect={handleSelect}
+                interval={null}
+                indicators={false}
+                controls={courses.length > itemsPerSlide}
+            >
+                {Array.from({ length: Math.ceil(courses?.length / itemsPerSlide) }).map((_, index) => (
+                    <Carousel.Item key={index} style={{ background: 'rgba(1,1,1,0.7)', padding: '1rem ' }}>
+                        <div className="container d-flex">
+                            {renderSlide(index * itemsPerSlide)}
+                        </div>
+                    </Carousel.Item>
+                ))}
+            </Carousel>
+        </Col>
     );
 }
 

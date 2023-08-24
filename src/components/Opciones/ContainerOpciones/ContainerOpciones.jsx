@@ -47,13 +47,17 @@ export default function ContainerOpciones() {
 
 
     return (
-        <section className='py-4' style={{ margin:'0 auto'}}>
+            <>
             {
                 showStats ?
+                <Row>
                     <ContainerStadisticas onClose={onClose} />
+                </Row>
                     :
                     showViewCourses ?
+                    <Row>
                         <ViewCourses onClose={onClose} />
+                    </Row>
                         :
                         <Row >
                             <CrearPersona />
@@ -79,7 +83,7 @@ export default function ContainerOpciones() {
                     <Button variant="primary">Go somewhere</Button>
                 </Card.Body>
             </Card> */}
-
-        </section>
+        </>
+        
     )
 }
