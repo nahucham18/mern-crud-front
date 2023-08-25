@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
+//Imagen
 import imgOpc from '../../../../assets/editarUsuario.png';
-
+//React-bootstrap
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
+//Axios
 import axios from 'axios';
+//Redux
 import { useDispatch, useSelector } from 'react-redux';
-
-import Swal from 'sweetalert2';
 import { deleteUser, searchUsers, updateUser } from '../../../../features/users/usersSlice';
+//Sweetalert
+import Swal from 'sweetalert2';
 
 export default function EditarPersona() {
 
@@ -18,21 +21,20 @@ export default function EditarPersona() {
 
     const [show, setShow] = useState(false);
     const [access, setAccess] =useState(false)
-    // const [users, setUsers] = useState()
     const [user, setUser] = useState({
-        _id: "",  // Inicializar con un objeto vacío en lugar de undefined
+        _id: "",
         first_name: "",
         last_name: "",
-        dni: 0,
-        age: 0,
+        dni: "",
+        age: "",
         gender: "",
     });
     const [data, setData] = useState(
         {
             first_name: "",
             last_name: "",
-            dni: 0,
-            age: 0,
+            dni: "",
+            age: "",
             gender: "",
         }
     )
@@ -44,8 +46,8 @@ export default function EditarPersona() {
         setData({
             first_name: "",
             last_name: "",
-            dni: 0,
-            age: 0,
+            dni: "",
+            age: "",
             gender: "",
         })
     }
@@ -60,41 +62,29 @@ export default function EditarPersona() {
         dispatch(searchUsers(event.target.value.toLowerCase()))
     }
 
-    // const getAllUsers = async () => {
-    //     const response = await axios.get('https://mern-crud-back-silk.vercel.app/api/user')
-    //     console.log(response.data)
-    //     setUsers(response.data)
-
-    // }
-
     const handleDeleteUser = async()=>{
         try {
             const response = axios.delete(`https://mern-crud-back-silk.vercel.app/api/user/${user._id}`)
-            console.log(response)
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: 'Usuario eliminado'
+                title: response.data.message
             })
             dispatch(deleteUser(user._id))
             setAccess(false)
             resetData()
         } catch (error) {
-            console.log(error)
             Swal.fire({
                 position: 'top-end',
                 icon: 'error',
                 title: 'Error',
                 text: error.response.data.message,
-            })
-            
+            })    
         }
     }
 
     const handleCheck = async (event) => {
-
         const response = await axios.get(`https://mern-crud-back-silk.vercel.app/api/user/${event.target.value}`)
-        console.log(response.data)
         setUser(response.data)
         setAccess(true)
     }
@@ -104,19 +94,15 @@ export default function EditarPersona() {
     }
 
     const handleOnSubmit = async () => {
-        console.log(user._id)
-        console.log(data)
         try {
             const response = await axios.put(`https://mern-crud-back-silk.vercel.app/api/user/${user._id}`, data)
-            console.log(response)
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: 'Usuario actualizado'
+                title: response.data.message
             })
             dispatch(updateUser(response.data.data))
         } catch (error) {
-            console.log(error)
             Swal.fire({
                 position: 'top-end',
                 icon: 'error',
@@ -126,10 +112,6 @@ export default function EditarPersona() {
         }
 
     }
-
-    useEffect(() => {
-        console.log(user)
-    }, [show, users])
 
     useEffect(() => {
         setData({
@@ -141,8 +123,6 @@ export default function EditarPersona() {
         })
         
     }, [user])
-
-    console.log(data)
 
     return (
         <>

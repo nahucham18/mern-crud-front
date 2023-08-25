@@ -1,13 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Carousel, Col } from 'react-bootstrap';
+//Redux
 import { useSelector } from 'react-redux';
+//Reac-bootstrap
+import Carousel from 'react-bootstrap/Carousel';
+import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 
 function Carouse() {
     const courses = useSelector(state => state.courses.filterUpdatedCourses);
+    
     const [itemsPerSlide, setItemsPerSlide] = useState(4);
-
     const [activeIndex, setActiveIndex] = useState(0);
 
     const handleSelect = (selectedIndex) => {

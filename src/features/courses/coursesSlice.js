@@ -51,7 +51,7 @@ export const coursesSlice = createSlice({
             const sorted = [...state.courses].sort((a, b) => {
                 const dateA = new Date(a.updatedAt);
                 const dateB = new Date(b.updatedAt);
-                return dateB - dateA; // Orden descendente (más reciente primero)
+                return dateB - dateA;
             });
 
             state.filterUpdatedCourses = sorted;

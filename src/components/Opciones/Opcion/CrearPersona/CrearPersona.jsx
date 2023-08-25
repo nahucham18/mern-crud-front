@@ -1,39 +1,29 @@
 import { useState } from 'react';
+//Axios
+import axios from 'axios';
+//Imagen
 import imgOpc from '../../../../assets/crearUsuario.png';
-import style from './CrearPersona.module.css';
+//React-bootstrap
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
-import axios from 'axios';
-
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-
+//Formik
 import * as formik from 'formik';
 import * as yup from 'yup';
-
+//Sweetalert
 import Swal from 'sweetalert2';
+//Redux
 import { useDispatch } from 'react-redux';
 import { addNewUser } from '../../../../features/users/usersSlice';
 
 
 export default function CrearPersona() {
 
-    // const { handleSubmit, handleChange } = useFormik({
-    //     initialValues: {
-    //         first_name: "Nahuel",
-    //         last_name: "",
-    //         dni: 0,
-    //         age: 0,
-    //         gender: "",
-    //     },
-    //     onSubmit: (values) => {
-    //         console.log(values)
-    //     }
-    // })
     const dispatch = useDispatch()
+    
+    const [show, setShow] = useState(false)
 
     const { Formik } = formik
     const [submitted, setSubmitted] = useState(false)
@@ -53,33 +43,19 @@ export default function CrearPersona() {
             .number()
             .required('Se requiere DNI')
             .min(1000000, 'DNI invalido')
-            .max(99999999, 'DNI invalidos'),
+            .max(99999999, 'DNI invalido'),
         age: yup
-            .number()
+            .number('Tiene que ser un numero')
             .required('Se requiere edad')
             .min(15, 'Minimo 15 años')
             .max(100, 'Maximo 100 años'),
-        // .matches(/^\d+$/, 'El DNI sol debe contener números'),
         gender: yup
             .string()
-            .required('Se require genero'),
+            .required('Se requiere genero'),
     });
 
-    const [show, setShow] = useState(false)
-    const [person, setPerson] = useState(
-        {
-            first_name: "",
-            last_name: "",
-            dni: 0,
-            age: 0,
-            gender: "",
-        }
-    )
-
     const handleOnSubmit = async (values, { resetForm, setSubmitting }) => {
-        console.log('entre')
         setSubmitted(true)
-        
         try {
             const response = await axios.post('https://mern-crud-back-silk.vercel.app/api/user', values)
             Swal.fire({
@@ -89,9 +65,7 @@ export default function CrearPersona() {
             })
             dispatch(addNewUser(response.data.data))
             resetForm()
-
         } catch (error) {
-            console.log(error)
             Swal.fire({
                         position: 'top',
                         icon: 'error',
@@ -99,8 +73,6 @@ export default function CrearPersona() {
                         text: `${error.response.data.message}`
                     })
         } 
-            
-
         setSubmitting(false);
     }
 
@@ -113,22 +85,11 @@ export default function CrearPersona() {
         setShow(false)
     }
 
-    const handleOnChange = (event) => {
-        if ((event.target.name === 'dni') || (event.target.name === 'age')) {
-            setPerson({ ...person, [event.target.name]: parseInt(event.target.value) })
-        } else {
-            setPerson({ ...person, [event.target.name]: event.target.value })
-        }
-    }
-
-
-
-
     return (
         <>
             <div className='col-10 col-sm-6 col-md-5 col-lg-4 mb-3 px-3'style={{margin:'0 auto'}}>
                 <article className='card pointer col-10 col-md-12' onClick={handleClick} style={{height:'200px',margin:'0 auto '}}>
-                    <img className={style.cardImage} src={imgOpc} alt="img-crear-personas" style={{height:'80%'}}/>
+                <img className='cardImage' src={imgOpc} alt="img-crear-categoria" style={{ height: '80%' ,objectFit: 'contain'}} />
                     <h3 className='card-title card-title-custom'>Nuevo usuario</h3>
                 </article>
                 <Modal show={show} onHide={onClose}>
@@ -142,8 +103,8 @@ export default function CrearPersona() {
                             initialValues={{
                                 first_name: "",
                                 last_name: "",
-                                dni: 0,
-                                age: 0,
+                                dni: "",
+                                age: "",
                                 gender: "",
                             }}
                         >

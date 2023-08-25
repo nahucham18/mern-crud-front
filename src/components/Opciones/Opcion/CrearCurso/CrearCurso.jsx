@@ -1,39 +1,32 @@
 import { useEffect, useState } from 'react';
+//axios
+import axios from 'axios';
+//redux
+import { useDispatch, useSelector } from 'react-redux';
+import { addCourse } from '../../../../features/courses/coursesSlice';
+//Formik
+import * as formik from 'formik';
+import * as yup from 'yup';
+//Imagen
 import imgOpc from '../../../../assets/crearCurso.png';
-import style from './CrearCurso.module.css';
+//React-bootstrap
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
-import axios from 'axios';
-
-import * as formik from 'formik';
-import * as yup from 'yup';
-
+//Sweetaler
 import Swal from 'sweetalert2';
-import { useDispatch, useSelector } from 'react-redux';
-import { addCourse } from '../../../../features/courses/coursesSlice';
 
 export default function CrearCurso() {
 
-    const categorias = useSelector(state => state.category.categories)
     const dispatch = useDispatch()
-
+    const categorias = useSelector(state => state.category.categories)
 
     const [show, setShow] = useState(false)
-    // const [categorias, setCategorias] = useState(categoriasSlice)
-    const [curso, setCurso] = useState(
-        {
-            name: "",
-            description: "",
-            categoryID: ""
-        }
-    )
 
     const { Formik } = formik
     const [submitted, setSubmitted] = useState(false)
-
     const schema = yup.object().shape({
         name: yup
             .string()
@@ -56,21 +49,10 @@ export default function CrearCurso() {
         setShow(false)
     }
 
-    const handleOnChange = (event) => {
-        setCurso({ ...curso, [event.target.name]: event.target.value })
-    }
-
-    // const getCategories = async()=>{
-    //     const categories = await axios.get('https://mern-crud-back-silk.vercel.app/api/category')
-    //     setCategorias(categories.data);
-    // }
-
     const handleOnSubmit = async (values, {resetForm, setSubmitting }) => {
         setSubmitted(true)
-        console.log(values)
         try {
             const response = await axios.post('https://mern-crud-back-silk.vercel.app/api/course', values)
-            console.log(response)
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
@@ -90,16 +72,13 @@ export default function CrearCurso() {
         setSubmitting(false)
     }
 
-    useEffect(() => {
-        // getCategories();
+    useEffect(() => {        
     }, [show, categorias])
 
-
     return (
-        <>
             <div className='col-10 col-sm-6 col-md-5 col-lg-4 mb-3 px-3'style={{margin:'0 auto'}}>
                 <article className='card pointer col-10 col-md-12' onClick={onShow} style={{height:'200px',margin:'0 auto '}}>
-                    <img className={style.cardImage} src={imgOpc} alt="img-crear-curso" style={{height:'80%'}}/>
+                <img className='cardImage' src={imgOpc} alt="img-crear-categoria" style={{ height: '80%' ,objectFit: 'contain'}} />
                     <h3 className='card-title card-title-custom'>Crear curso</h3>
                 </article>
                 <Modal show={show} onHide={onClose}>
@@ -198,6 +177,5 @@ export default function CrearCurso() {
                     </Modal.Footer>
                 </Modal>
             </div>
-        </>
     )
 }

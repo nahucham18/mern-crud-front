@@ -1,10 +1,11 @@
-import Col from 'react-bootstrap/Col';
+import { useState } from 'react';
+//React-bootstrap
 import Row from 'react-bootstrap/Row';
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
-import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
 import Form from 'react-bootstrap/Form';
+//Redux
+import { useDispatch, useSelector } from 'react-redux';
 import { searchCourses, sortCourses } from '../../../../features/courses/coursesSlice';
 
 export default function ContainerViewCourse({ onClose }) {
@@ -15,7 +16,6 @@ export default function ContainerViewCourse({ onClose }) {
     const categories = useSelector(state => state.category.categories)
 
     const [sortOrder, setSortOrder] = useState('asc');
-
 
     const handleSearchCategory = (event) => {
         dispatch(searchCourses(event.target.value))

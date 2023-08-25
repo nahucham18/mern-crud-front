@@ -1,9 +1,10 @@
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { useEffect, useState } from "react";
-// import { Doughnut } from "react-chartjs-2";
+//Chart.js
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import {Pie} from 'react-chartjs-2';
-import axios from 'axios';
-import { Col, Row } from "react-bootstrap";
+//React-bootstrap
+import Row from "react-bootstrap/Row";
+import Col from 'react-bootstrap/Col';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -11,30 +12,20 @@ export default function AgeChartPie({users}){
  
     const [menores, setMenores] = useState([]);
     const [mayores, setMayores] = useState([]);
-    
-   
   
     useEffect(()=>{
-      console.log(users)
-      
       const userMenores = users?.filter(user => {
         return user.age < 18 ;
       })
-      console.log({menores:userMenores});
       setMenores(userMenores);
   
       const userMayores = users?.filter(user=>{
         return user.age > 17 ;
       })
-      console.log({mayores:  userMayores})
-      setMayores(userMayores)
-      
+      setMayores(userMayores)  
     },[users])
-  
-    console.log(users)
     
     return (
-      <>
       <Row className="mt-5" style={{width:'100%',height:'300px'}}>
         <Col className="col-12">
         <h3>Mayores de 18</h3>
@@ -59,12 +50,7 @@ export default function AgeChartPie({users}){
           </Col>
           :
           <></>
-        }
-        
-        
+        }  
       </Row>
-        
-      
-      </>
     )
   }

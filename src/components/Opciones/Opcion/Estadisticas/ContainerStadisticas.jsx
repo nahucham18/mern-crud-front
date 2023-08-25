@@ -1,46 +1,43 @@
 import { useEffect, useState } from 'react';
-import Form from 'react-bootstrap/Form';
+//Axios
 import axios from 'axios';
-import CourseChartPie from '../../../Charts/CourseChartPie';
-import AgeChartPie from '../../../Charts/AgeChartPie';
+//React-bootstrap
+import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import Row  from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+//Charts
+import CourseChartPie from '../../../Charts/CourseChartPie';
+import AgeChartPie from '../../../Charts/AgeChartPie';
+//Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { searchCourses } from '../../../../features/courses/coursesSlice';
-import { Col, Row } from 'react-bootstrap';
 
 export default function ContainerStadisticas({ onClose }) {
 
-    // const [courses, setCourses] = useState()
-    const [course, setCourse] = useState()
-    const [users, setUsers] = useState()
+    
 
     const dispatch = useDispatch()
     const categories = useSelector(state => state.category.categories)
     const courses = useSelector(state => state.courses.filterCourses)
 
+    const [course, setCourse] = useState()
+    const [users, setUsers] = useState()
+
     const searchCategory = (event) => {
         dispatch(searchCourses(event.target.value))
     }
 
-    // const getAllCourses = async () => {
-    //     const response = await axios.get('https://mern-crud-back-silk.vercel.app/api/course')
-    //     // console.log(response.data)
-    //     setCourses(response.data)
-    // }
-
     const handleCheck = async (event) => {
         const response = await axios.get(`https://mern-crud-back-silk.vercel.app/api/course/${event.target.value}`)
-        // console.log(response.data)
         setCourse(response.data)
         const responseUsers = await axios.get(`https://mern-crud-back-silk.vercel.app/api/user/bycourse?courseID=${response.data._id}`)
-        // console.log(responseUsers)
         setUsers(responseUsers.data)
     }
 
     const getAllUsers = async () => {
         const response = await axios.get('https://mern-crud-back-silk.vercel.app/api/user')
-        console.log(response.data)
         setUsers(response.data)
     }
 
@@ -48,10 +45,7 @@ export default function ContainerStadisticas({ onClose }) {
 
     useEffect(() => {
         getAllUsers();
-        // getAllCourses();
     }, [])
-
-    console.log(users)
 
     return (
         <Col className="container col-11 col-sm-10 col-md-8 col-lg-7" style={{margin:'0 auto'}}>

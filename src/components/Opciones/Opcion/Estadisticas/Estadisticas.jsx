@@ -1,8 +1,7 @@
+//Imagen
 import imgOpc from '../../../../assets/opc6.png';
 
 export default function Estadisticas ({handleShow}){
-
-
 
     return (
         <div className='col-10 col-sm-6 col-md-5 col-lg-4 mb-3 px-3'style={{margin:'0 auto'}}>

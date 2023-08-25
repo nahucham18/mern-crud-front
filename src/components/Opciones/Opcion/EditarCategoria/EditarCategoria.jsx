@@ -1,32 +1,35 @@
+import { useEffect, useState } from 'react';
+//Image
 import imgOpc from '../../../../assets/editarCategoria.png';
-
+//React-bootstrap
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { useEffect, useState } from 'react';
+//axios
 import axios from 'axios';
-
+//Sweetaler
 import Swal from 'sweetalert2';
+//Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { addCategory, deleteCategory, getAllCategoires, updateCategory } from '../../../../features/category/categorySlica';
+import { deleteCategory, updateCategory } from '../../../../features/category/categorySlica';
 
 export default function EditarCategoria() {
 
     const dispatch = useDispatch()
 
+    const categories = useSelector(state => state.category.categories)
+
     const [access , setAccess] = useState(false)
     const [show, setShow] = useState(false);
-    const categories = useSelector(state => state.category.categories)
     const [categoria, setCategoria] = useState({
         _id: "",
         name:""
     })
-
     const [data, setData] = useState({
         name: ""
     })
 
-
+    
     const onShow = () => {
         setShow(true)
     }
@@ -65,9 +68,6 @@ export default function EditarCategoria() {
                 title: `${response.data.message}`
             })
             dispatch(updateCategory(response.data.data))
-            // const allCategories = await axios.get('https://mern-crud-back-silk.vercel.app/api/category')
-            // dispatch(getAllCategoires(allCategories.data))
-            // resetData()
 
         } catch (error) {
             Swal.fire({
@@ -82,20 +82,14 @@ export default function EditarCategoria() {
     const handleDeleteCategory = async () => {
         try {
             const response = await axios.delete(`https://mern-crud-back-silk.vercel.app/api/category/${categoria._id}`)
-            console.log(response)
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                // title: `${response.data.message}`
-                title: 'Catgoria eliminada'
+                title: response.data.message
             })
             dispatch(deleteCategory(categoria._id))
             resetData()
-            setAccess(false)
-            // setCategoria(undefined)
-            // const allCategories = await axios.get('https://mern-crud-back-silk.vercel.app/api/category')
-            // dispatch(getAllCategoires(allCategories.data))
-            
+            setAccess(false)  
         } catch (error) {
             Swal.fire({
                 position: 'top',
@@ -104,11 +98,9 @@ export default function EditarCategoria() {
                 text: error.response.data.message
             })
         }
-
     }
 
     useEffect(() => {
-        console.log(categoria)
     }, [show, categoria])
 
     useEffect(() => {
@@ -116,8 +108,6 @@ export default function EditarCategoria() {
             name: categoria?.name || "",
         })
     }, [categoria])
-
-    console.log(data)
 
     return (
         <>

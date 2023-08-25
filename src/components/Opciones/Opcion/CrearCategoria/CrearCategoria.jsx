@@ -1,32 +1,29 @@
+import { useState } from 'react';
+//axios
+import axios from 'axios';
+//reux
+import { useDispatch } from 'react-redux';
+import { addCategory } from '../../../../features/category/categorySlica';
+//imagen
 import imgOpc from '../../../../assets/crearCategoria.png';
-import style from './CrearCategoria.module.css';
+//Formik
+import * as formik from 'formik';
+import * as yup from 'yup';
+//Reac-bootstrap
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import ButtonGroup from 'react-bootstrap/ButtonGroup';
 import ButtonToolbar from 'react-bootstrap/ButtonToolbar';
-import { useState } from 'react';
-import axios from 'axios';
-
-import * as formik from 'formik';
-import * as yup from 'yup';
-
+//SweetAlerts
 import Swal from 'sweetalert2';
-import { useDispatch } from 'react-redux';
-import { addCategory } from '../../../../features/category/categorySlica';
 
 export default function CrearCategoria() {
 
     const dispatch = useDispatch()
+    const { Formik } = formik
 
     const [show, setShow] = useState(false);
-    const [categoria, setCategoria] = useState(
-        {
-            name: ""
-        }
-    )
-
-    const { Formik } = formik
     const [submitted, setSubmitted] = useState(false)
 
     const schema = yup.object().shape({
@@ -34,7 +31,6 @@ export default function CrearCategoria() {
             .string()
             .required('Se requiere nombre')
     });
-
 
     const onShow = () => {
         setShow(true)
@@ -44,15 +40,10 @@ export default function CrearCategoria() {
         setShow(false)
     }
 
-    const handleOnChange = (event) => {
-        setCategoria({ ...categoria, [event.target.name]: event.target.value })
-    }
-
     const handleOnSubmit = async (values, {resetForm, setSubmitting }) => {
         setSubmitted(true)
         try {
             const response = await axios.post('https://mern-crud-back-silk.vercel.app/api/category', values)
-            console.log(response.data)
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
@@ -72,7 +63,6 @@ export default function CrearCategoria() {
     }
 
     return (
-        <>
             <div className='col-10 col-sm-6 col-md-5 col-lg-4 mb-3 px-3'style={{margin:'0 auto'}}>
                 <article className='card pointer col-10 col-md-12' onClick={onShow} style={{height:'200px',margin:'0 auto '}}>
                     <img className='cardImage' src={imgOpc} alt="img-crear-categoria" style={{ height: '80%' ,objectFit: 'contain'}} />
@@ -127,6 +117,5 @@ export default function CrearCategoria() {
                     </Modal.Footer>
                 </Modal>
             </div>
-        </>
     )
 }

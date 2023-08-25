@@ -1,14 +1,17 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
+//Imagen
 import imgOpc from '../../../../assets/personaCurso.png';
-import style from './PersonaCurso.module.css';
+//React-boostrap
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+//Axios
 import axios from 'axios';
-
+//Sweetalert
 import Swal from 'sweetalert2';
+//Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { searchUsers, updateUser } from '../../../../features/users/usersSlice';
 import { searchCourses } from '../../../../features/courses/coursesSlice';
@@ -21,9 +24,7 @@ export default function PersonaCurso() {
     const courses = useSelector(state => state.courses.filterCourses)
 
     const [show, setShow] = useState(false);
-    // const [users, setUsers] = useState()
     const [user, setUser] = useState("")
-    // const [courses, setCourses] = useState()
     const [curso, setCurso] = useState("")
 
     const onShow = () => {
@@ -34,9 +35,6 @@ export default function PersonaCurso() {
         setShow(false);
     }
 
-
-    
-
     const searchUser = (event) => {
         dispatch(searchUsers(event.target.value.toLowerCase()))
     }
@@ -46,29 +44,24 @@ export default function PersonaCurso() {
     }
 
     const handleCheckUser = async (event) => {
-        console.log(event.target.value)
         const response = await axios.get(`https://mern-crud-back-silk.vercel.app/api/user/${event.target.value}`)
         setUser(response.data)
     }
 
     const handleCheckCourse = async (event) => {
-        console.log(event.target.value)
         const response = await axios.get(`https://mern-crud-back-silk.vercel.app/api/course/${event.target.value}`)
-        console.log(response.data)
         setCurso(response.data)
     }
 
     const putUser = async () => {
         try {
             const response = await axios.put(`https://mern-crud-back-silk.vercel.app/api/user/${user._id}`, { courses: curso._id });
-            console.log(response.data.data);
             const newCourse = response.data.data.courses.slice(-1)[0]
-            console.log({ newCourse: newCourse })
             Swal.fire({
                 position: 'top-end',
                 icon: 'success',
                 title: `Se agrego exitosamente`,
-                text: `${response.data.data.first_name} se agrego a ${response.data.data.courses.slice(-1)[0].name}`
+                text: `${response.data.data.first_name} se agrego a ${newCourse.name}`
             })
             dispatch(updateUser(response.data.data))
         } catch (error) {
@@ -81,14 +74,6 @@ export default function PersonaCurso() {
         }
     }
 
-    useEffect(() => {
-        console.log(user._id)
-        console.log(curso._id)
-    }, [show])
-
-
-    console.log(user)
-    console.log(curso)
     return (
         <>
             <div className='col-10 col-sm-6 col-md-5 col-lg-4 mb-3 px-3'style={{margin:'0 auto'}}>

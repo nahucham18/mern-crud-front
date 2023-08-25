@@ -1,13 +1,17 @@
 import { useEffect } from 'react';
+//Components
 import Carousel from '../../components/Carousel/Carousel';
 import Opciones from '../../components/Opciones/ContainerOpciones/ContainerOpciones';
-
+//Axios
 import axios from 'axios';
+//Redux
 import { useDispatch } from 'react-redux';
 import { getAllUsers } from '../../features/users/usersSlice';
 import { getAllCategoires } from '../../features/category/categorySlica';
 import { getAllCourses, sortUpdatedCourse } from '../../features/courses/coursesSlice';
-import { Col, Row } from 'react-bootstrap';
+//Reac-bootstrap
+import Row from 'react-bootstrap/Row';
+import  Col from 'react-bootstrap/Col';
 
 export default function Home() {
 
@@ -25,7 +29,6 @@ export default function Home() {
 
     useEffect(() => {
         getData();
-
     }, [])
 
     return (
