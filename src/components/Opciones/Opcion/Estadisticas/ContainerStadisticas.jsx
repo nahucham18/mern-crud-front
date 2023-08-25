@@ -48,14 +48,14 @@ export default function ContainerStadisticas({ onClose }) {
     }, [])
 
     return (
-        <Col className="container col-11 col-sm-10 col-md-8 col-lg-7" style={{margin:'0 auto'}}>
+        <Col className="container col-11 col-sm-10 col-md-10 col-lg-10 col-xl-12" style={{margin:'0 auto'}}>
             <Row>
                 <Button size='sm' className='mb-3 col-3 col-sm-2 col-lg-1' variant='dark'
                 style={{minWidth:'70px'}}
                 onClick={() => onClose('stats')}>Volver</Button>
             </Row>
             <Row className=''>
-                <Col className="col-12 col-md-10 col-lg-6 bg-body-secondary" style={{margin:'0 auto'}}>
+                <Col className="col-12 col-md-12 col-lg-6 bg-body-secondary mb-5" style={{margin:'0 auto'}}>
 
                     <Form>
                         <Form.Select className='mb-3' name='categoryID' onChange={searchCategory}>
@@ -84,24 +84,24 @@ export default function ContainerStadisticas({ onClose }) {
                     </Form>
 
                 </Col>
-                <Col className=" col-12 col-md-10 col-lg-6" style={{margin:'0 auto'}}>
+                <Col className=" col-12 col-sm-10 col-md-8 col-lg-6 mb-5" style={{margin:'0 auto'}}>
                     <Card style={{ height: '100%' }}>
                         {
                             course ?
                                 <>
                                     <Card.Img variant="top" src={course?.img_course} />
                                     <Card.Body style={{ textAlign: 'left', height: '50%   ' }}>
-                                        <Card.Title>{course ? course?.name : "Titulo del curso"}</Card.Title>
-                                        <Card.Text>{course ? course?.description : "Descripcion del curso"}</Card.Text>
-                                        <Card.Text>{course ? course?.category?.name : "Categoria del curso"}</Card.Text>
+                                        <Card.Title className='fs-2 fw-bold'>{course ? course?.name : "Titulo del curso"}</Card.Title>
+                                        <Card.Text className='text-secondary'>{course ? course?.category?.name : "Categoria del curso"}</Card.Text>
+                                        <Card.Text className='overflow-y-scroll' style={{height:'100px'}}>{course ? course?.description : "Descripcion del curso"}</Card.Text>
                                     </Card.Body>
                                 </>
                                 :
                                 <>
                                     <Card.Body className="d-flex flex-column align-items-center justify-content-center" style={{ height: '100%' }}>
                                         <Card.Title className='fs-2 fw-bold mb-3'>{"Titulo del curso"}</Card.Title>
-                                        <Card.Text>{"Descripcion del curso"}</Card.Text>
                                         <Card.Text>{"Categoria del curso"}</Card.Text>
+                                        <Card.Text>{"Descripcion del curso"}</Card.Text>
                                     </Card.Body>
                                 </>
                         }

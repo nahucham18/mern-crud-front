@@ -53,7 +53,7 @@ export default function ContainerViewCourse({ onClose }) {
             <Table striped bordered hover >
                 <thead>
                     <tr>
-                        <th>#</th>
+                        <th >#</th>
                         <th onClick={() => handleSort('name')}>First Name</th>
                         <th>Categoria</th>
                         <th onClick={() => handleSort('createdAt')}>Fecha Creacion</th>

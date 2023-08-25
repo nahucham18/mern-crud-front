@@ -32,8 +32,8 @@ export default function Home() {
     }, [])
 
     return (
-        <main className='container-fluid p-0' >
-            <div className='cointer'>
+        <main className=' py-5' >
+            <div className='container'>
                 <Col>
                 <h2 className='mb-3 fs-1' style={{ textAlign: 'left', paddingLeft: '1rem', fontWeight: "bold" }}>Cursos actualizados </h2>
                 </Col>
@@ -45,7 +45,7 @@ export default function Home() {
 
                     <h2 className='mb-4' style={{ fontWeight: 'bold', fontSize: "2rem" }}>Opciones</h2>
             </div>
-                <div className='col-8 col-sm-10 col-md-8 col-lg-7 col-xl-6' style={{margin:'0 auto'}}>
+                <div className='col-8 col-sm-10 col-md-10 col-lg-10 col-xl-6' style={{margin:'0 auto'}}>
                     <Opciones />
                 </div>
         </main>

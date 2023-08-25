@@ -9,7 +9,7 @@ import Button from 'react-bootstrap/Button';
 
 function Carouse() {
     const courses = useSelector(state => state.courses.filterUpdatedCourses);
-    
+
     const [itemsPerSlide, setItemsPerSlide] = useState(4);
     const [activeIndex, setActiveIndex] = useState(0);
 
@@ -31,7 +31,7 @@ function Carouse() {
                                     style={{ height:'100%', margin: '0 10px', paddingBottom:'1rem' }}>
                                     <img  className='cardImage' style={{height:'60%', maxHeight: '400px'}}  src={course?.img_course} alt="img-course" />
                                     <Card.Body style={{ textAlign: 'left' ,height:'40%'}}>
-                                        <Card.Title style={{fontSize:"1rem"}}>{course.name}</Card.Title>
+                                        <Card.Title className='fs-4'>{course.name}</Card.Title>
                                         {
                                             course?.category?.name
                                                 ?
@@ -40,7 +40,7 @@ function Carouse() {
                                                 <Card.Text style={{fontSize:"0.8rem" }}>"</Card.Text>
 
                                         }
-                                        <Button size='sm' variant="primary">Go somewhere</Button>
+                                        <Card.Text className='text-secondary' style={{textAlign:'right'}}>Actualizado: {new Date(course?.updatedAt).toLocaleDateString()}</Card.Text>
                                     </Card.Body>
                                 </Card>
                                 :
