@@ -33,14 +33,14 @@ export default function Home() {
 
     return (
         <main className=' py-5' >
-            <div className='container'>
+            <div className=''>
                 <Col>
                 <h2 className='mb-3 fs-1' style={{ textAlign: 'left', paddingLeft: '1rem', fontWeight: "bold" }}>Cursos actualizados </h2>
                 </Col>
             </div>
-            <Row>
+            <div>
                 <Carousel />
-            </Row>
+            </div>
             <div>
 
                     <h2 className='mb-4' style={{ fontWeight: 'bold', fontSize: "2rem" }}>Opciones</h2>

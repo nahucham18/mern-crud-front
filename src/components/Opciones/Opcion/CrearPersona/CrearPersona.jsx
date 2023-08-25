@@ -54,6 +54,7 @@ export default function CrearPersona() {
             .required('Se requiere genero'),
     });
 
+    //Submit
     const handleOnSubmit = async (values, { resetForm, setSubmitting }) => {
         setSubmitted(true)
         try {

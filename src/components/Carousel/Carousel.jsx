@@ -5,12 +5,24 @@ import { useSelector } from 'react-redux';
 import Carousel from 'react-bootstrap/Carousel';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
 
 function Carouse() {
     const courses = useSelector(state => state.courses.filterUpdatedCourses);
+    const win = window.innerWidth
+    let winValue = 0
+    if(win < 576){
+         winValue = 1
+    }else if (win < 768) {
+         winValue = 2
+    } else if (win < 992) {
+         winValue = 2
+    } else if(win < 1200) {
+         winValue = 3
+    } else{
+         winValue = 4
+    }
 
-    const [itemsPerSlide, setItemsPerSlide] = useState(4);
+    const [itemsPerSlide, setItemsPerSlide] = useState(winValue);
     const [activeIndex, setActiveIndex] = useState(0);
 
     const handleSelect = (selectedIndex) => {
